@@ -75,7 +75,7 @@ export default new Vuex.Store({
                     console.log("连接已关闭")
                     this.commit("showTopPopup", "连接已关闭")
                     state.loading = true
-                    this.commit("WSconnect", "ws://192.168.20.68:3000/")
+                    this.commit("WSconnect", "ws://13.231.69.243:3000/")
                 }
             }else {
                 alert("当前环境暂不支持聊天")

@@ -73,7 +73,7 @@ export default {
                         console.log("chatin")
                         this.$store.commit("addChatUser", {
                             userid: to_user_id,
-                            list: [{message: messageText, self: true}],
+                            list: [{message: this.messageText, self: true}],
                             pk: publicKey
                         })
                         this.messageText = ""

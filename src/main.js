@@ -11,7 +11,7 @@ import VueSocketio from 'vue-socket.io'
 Vue.use(MuseUi)
 
 //连接服务器
-store.commit("WSconnect","ws://192.168.20.68:3000/")
+store.commit("WSconnect","ws://13.231.69.243:3000/")
 
 Vue.config.productionTip = false
 
