@@ -6,15 +6,15 @@
                 <mu-tab value="wallet" @click.native="switchTo('wallet')" href="javascript:;" title="个人">
                     <i class="iconfont">&#xe611;</i>
                 </mu-tab>
-                <mu-tab value="chatlist" href="#/chatlist" title="聊天">
+                <mu-tab value="chatlist" @click.native="switchTo('chatlist')" href="javascript:;" title="聊天">
                     <i class="iconfont">&#xe663;</i>
                 </mu-tab>
-                <mu-tab value="setting" href="#/setting" title="设置">
+                <mu-tab value="setting" @click.native="switchTo('setting')" href="javascript:;" title="设置">
                     <i class="iconfont">&#xe68e;</i>
                 </mu-tab>
-                <mu-tab value="tab4" href="javascript:;" title="退出" @click.native="loginOut">
+                <!-- <mu-tab value="tab4" href="javascript:;" title="退出" @click.native="loginOut">
                     <i class="iconfont">&#xe642;</i>
-                </mu-tab>
+                </mu-tab> -->
             </mu-tabs>
         </footer>
     </div>
@@ -34,7 +34,6 @@ export default {
             this.activeTab = val
         },
         loginOut() {
-            console.log(111)
             this.$router.replace("login")
         },
         switchTo(path) {
@@ -43,7 +42,7 @@ export default {
     },
     watch: {
         $route(to, from) {
-            this.activeTab = to.name
+            this.activeTab = to.name == "addchat" ? "chatlist" : to.name
         }
     }
 }

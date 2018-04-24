@@ -4,22 +4,39 @@
             <div class="add-chat" @click="$router.push('addchat')">
                 <i class="iconfont">&#xe60d;</i>
                 <div class="content">开始新的聊天</div>
+                <div style="display: none">{{changeM}}</div>
             </div>
             <ul>
-                <li v-for="item,index in 3" :key="index" @click="$router.push('chatin')">
+                <li v-for="item,index in chatListData" :key="index" @click="$router.push({path: 'chatin', query: {id: item.userid}})">
                     <i class="iconfont">&#xe620;</i>
                     <div class="content">
                         <div>
-                            <h3>密聊官方客服</h3>
+                            <h3>{{item.userid}}</h3>
                             <span>今天12:12</span>
                         </div>
-                        <p>密聊是一款私密聊天软件，区块链加密，点对点的传输，不经过中心服务器不经过中心服务器</p>
+                        <p>{{item.list[item.list.length - 1].message}}</p>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {}
+    },
+    computed: {
+        chatListData(){
+            return this.$store.state.chatUserList
+        },
+        changeM() {
+            return this.$store.state.changeM
+        }
+    }
+}
+</script>
 
 <style lang="less">
 .chat-list-page {

@@ -14,23 +14,29 @@ import Specification from '@/components/pages/specification'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'Index',
       component: Index,
       redirect: 'chatlist',
+      meta: {
+        isLogin: true
+      },
       children: [
         {path: 'wallet', name: 'wallet', component: Wallet},
-        {path: 'chatlist', name: 'chatlist', component: ChatList},
+        {path: 'chatlist', name: 'chatlist', component: ChatList, meta: {isLogin: true}},
         {path: 'setting', name: 'setting', component: Setting},
         {path: 'addchat', name: 'addchat', component: AddChat}
       ]
     },
     {
       path: '/chatin',
-      component: ChatIn
+      component: ChatIn,
+      meta: {
+        isLogin: true
+      }
     },
     {
       path: '/login',
@@ -46,3 +52,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // 登录拦截
+  if(to.meta.isLogin) {
+		if(!sessionStorage.getItem("userid")) {
+      next({path: "login"})
+		} else {
+			next(true);
+		}
+	}else {
+		next(true);
+	}  
+})
+
+export default router
