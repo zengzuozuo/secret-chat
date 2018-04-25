@@ -31,6 +31,10 @@ export default {
                 this.$store.commit("showTopPopup","对方地址不能为空")
                 return;
             }
+            if(this.to_user_id == sessionStorage.getItem("userid")) {
+                this.$store.commit("showTopPopup","无法向自己发送")
+                return;
+            }
             if(this.message.trim() == "") {
                 this.$store.commit("showTopPopup","发送内容不能为空")
                 return;
@@ -76,6 +80,7 @@ export default {
                         if(res.serial != this.timestamp) return;
                         this.timestamp = new Date().getTime()
                         console.log("addchat")
+                        
                         this.$store.commit("addChatUser", {
                             userid: this.to_user_id,
                             list: [{message: this.message, self: true}],

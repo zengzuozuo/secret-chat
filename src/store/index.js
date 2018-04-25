@@ -19,7 +19,8 @@ export default new Vuex.Store({
         changeM: "",
         registerUserid: "",
         minute5logout: false,
-        timer: null
+        timer: null,
+        langValue: "zh-CN"   //当前语言
     },
     mutations: {
         WSconnect(state, url) {

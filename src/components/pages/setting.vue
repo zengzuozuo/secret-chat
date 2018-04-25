@@ -9,7 +9,7 @@
                     </div>
                 </li>
             </ul>
-            <mu-raised-button class="logout-btn" label="安全退出" @click.native="logout" fullWidth primary/>            
+            <mu-raised-button class="logout-btn" :label="$t('message.logout')" @click.native="logout" fullWidth primary/>            
             <p class="other-test-info">您所有的聊天，都是通过区块链浏览器加密，不会储存在第三方平台。<br /><br />您只要保存好您的密钥和匿名账户，您的隐私就可以得到保护。如果有人想恶意破解您的聊天，以目前计算机的能力，需要算好几百亿年。<br /><br />您可以去以太坊的区块链浏览器查询您的相关浏览记录，您的所有信息，都会加密上链。<br /><br />我们第一期放在以太坊公链上，您可以登录以太坊的区块链浏览器查看，以太坊是全球公认的区块链技术，并且用户众多，要想在这个网络作弊，需要说服51%的用户。</p>
         </div>
     </div>

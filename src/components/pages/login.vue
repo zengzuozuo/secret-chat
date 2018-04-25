@@ -1,14 +1,19 @@
 <template>
     <div class="login-page">
         <div class="main">
-            <h3>密聊</h3>
-            <p>一款基于区块链的顶级安全匿名聊天软件</p>
-            
+            <h3>{{$t('message.miliao')}}</h3>
+            <p>{{$t('message.miliaoPhrase')}}</p>
+            <div class="lang-switch">
+            	<mu-dropDown-menu :value="$store.state.langValue" @change="handleChange">
+				    <mu-menu-item value="zh-CN" :title="$t('message.Chinese')"/>
+				    <mu-menu-item value="en-US" :title="$t('message.English')"/>
+				</mu-dropDown-menu>
+            </div>
         </div>
         <footer>
-            <mu-text-field v-model="userid" hintText="请输入您的短信密码语句进行登录"/>
-            <mu-raised-button label="授权登录" @click.native="login" primary class="login-btn" />
-            <a class="register" href="#/register">没有帐号？创建一个新的匿名帐号>></a>
+            <mu-text-field v-model="userid" :hintText="$t('message.loginInputTip')"/>
+            <mu-raised-button :label="$t('message.login')" @click.native="login" primary class="login-btn" />
+            <a class="register" href="#/register">{{$t('message.registerText')}}>></a>
         </footer>
     </div>
 </template>
@@ -17,7 +22,7 @@
 export default {
     data() {
         return {
-            userid: ""
+            userid: "",
         }
     },
     methods: {
@@ -40,7 +45,11 @@ export default {
                     }
                 }
             })
-        }
+        },
+        handleChange (langValue) {
+	      this.$store.state.langValue = langValue
+	      this.$i18n.locale = langValue
+	    }
     }
 }
 </script>
@@ -69,6 +78,21 @@ export default {
         }
         p {
             text-align: center;
+        }
+        .lang-switch {
+        	position: absolute;
+        	right: 0;
+        	top: 0;
+			color: #fff;
+        	.label {
+        		vertical-align: middle;
+        	}
+        	.mu-dropDown-menu-text {
+        		color: #fff;
+        	}
+        	.mu-dropDown-menu-icon {
+        		color: #fff;
+        	}
         }
     }
     footer {
