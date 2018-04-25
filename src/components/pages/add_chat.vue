@@ -43,9 +43,11 @@ export default {
                     params: [this.to_user_id, this.timestamp]
                 },
                 callback: (res) => {
+                    console.log(1111)
                     if(!res.serial) return;
                     if(res.code === 200 && res.method == "getUserInfo") {
                         if(res.serial != this.timestamp) return;
+                        this.timestamp = new Date().getTime()
                         this.send(res.result[0].pub_key)
                     }
                 }
@@ -61,7 +63,6 @@ export default {
             let secretKey = localStorage.getItem("sec_key")
             let miwen = nacl.box(nacl.util.decodeUTF8(this.message), nonce, nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
             const userid = sessionStorage.getItem("userid")
-
 
 
             this.$store.commit("WSsend", {

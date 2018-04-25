@@ -17,7 +17,9 @@ export default new Vuex.Store({
         },
         loading: true,
         changeM: "",
-        registerUserid: ""
+        registerUserid: "",
+        minute5logout: false,
+        timer: null
     },
     mutations: {
         WSconnect(state, url) {
@@ -31,14 +33,37 @@ export default new Vuex.Store({
             if ("WebSocket" in window) {
                 state.ws = new WebSocket(url)
                 state.ws.onopen = () => {
-                  console.log("连接成功")
-                  //关闭loading动画
-                  state.loading = false
+                    console.log("连接成功")
+                    //关闭loading动画
+                    state.loading = false
+                    if(sessionStorage.getItem("userid")) {
+                        this.commit("WSsend", {
+                            data: {
+                                method: "login",
+                                params: [sessionStorage.getItem("userid")]
+                            }
+                        })
+                    }
                 }
                 state.ws.onmessage = (res) => {
-                    console.log(res)
+                    if(state.timer) {
+                        clearTimeout(state.timer)
+                    }
+                    if(state.minute5logout) {
+                        state.timer = setTimeout(() => {
+                            state.minute5logout = false                            
+                            let userid = sessionStorage.getItem("userid")
+                            this.commit("WSsend", {
+                                data: {
+                                    method: "logout",
+                                    params: [userid]
+                                }
+                            })
+                        }, 300000)
+                    }
                     state.loading = false
                     let data = JSON.parse(res.data)
+                    console.log(data)
                     if(data.code == 3001) {
                         this.commit("showTopPopup", data.result)
                         return;
@@ -68,6 +93,10 @@ export default new Vuex.Store({
                         case 'register':
                             state.registerUserid = data.result
                         break;
+                        case 'login':
+                            localStorage.setItem("pub_key", data.result[0].pub_key)
+                            localStorage.setItem("sec_key", data.result[0].sec_key)
+                        break;
                     }
                 }
                 
@@ -89,21 +118,27 @@ export default new Vuex.Store({
         },
         WSsend(state, data) {
             switch(state.ws.readyState) {
-                case 1:
-                    state.ws.send(JSON.stringify(data.data))
-                    if(!data.callback) return;
-                    state.ws.addEventListener("message", (res) => {
-                        data.callback(JSON.parse(res.data))
-                    })
-                    break;
                 case 0:
                     setTimeout(() => {
                         state.ws.send(JSON.stringify(data.data))
                         if(!data.callback) return;
-                        state.ws.addEventListener("message", (res) => {
+                        function aa (e) {
+                            let res = e;
                             data.callback(JSON.parse(res.data))
-                        })
+                            state.ws.removeEventListener("message", aa)
+                        }
+                        state.ws.addEventListener("message", aa)
                     }, 1000)
+                    break;
+                case 1:
+                    state.ws.send(JSON.stringify(data.data))
+                    if(!data.callback) return;
+                    function aa (e) {
+                        let res = e;
+                        data.callback(JSON.parse(res.data))
+                        state.ws.removeEventListener("message", aa)
+                    }
+                    state.ws.addEventListener("message", aa)
                     break;
                 case 2:
                     this.commit("showTopPopup", "连接尚未连接正在进行关闭建立")

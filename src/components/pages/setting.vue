@@ -5,7 +5,7 @@
                 <li>
                     <h3>安全</h3>
                     <div class="content">
-                        <mu-checkbox label="5分钟后，自动退出应用，退出后，需要重新输入匿名账户（12个英文字母）" class="demo-checkbox"/>
+                        <mu-checkbox v-model="$store.state.minute5logout" label="5分钟后，自动退出应用，退出后，需要重新输入匿名账户（12个英文字母）" class="demo-checkbox"/>
                     </div>
                 </li>
             </ul>
@@ -31,6 +31,26 @@ export default {
                     params: [userid]
                 }
             })
+        }
+    },
+    computed: {
+        storeMinute5logout() {
+            return this.$store.state.minute5logout
+        }
+    },
+    watch: {
+        storeMinute5logout(newval, oldval) {
+            if(!newval) return;
+            this.$store.state.timer = setTimeout(() => {
+                this.$store.state.minute5logout = false                            
+                let userid = sessionStorage.getItem("userid")
+                this.$store.commit("WSsend", {
+                    data: {
+                        method: "logout",
+                        params: [userid]
+                    }
+                })
+            }, 300000)
         }
     }
 }
