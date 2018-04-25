@@ -45,7 +45,7 @@ li {
     justify-content: center;
     max-width: 375px;
     box-shadow: 0 0 10px #d5d5d5;
-    background-color: #db2828;
+    background-color: #db2828 !important;
     color: #fff;
     border-radius: 2px;
 }

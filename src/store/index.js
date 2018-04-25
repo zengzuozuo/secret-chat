@@ -164,7 +164,7 @@ export default new Vuex.Store({
         showTopPopup(state, msg) {
             state.tipText = msg
             state.isShowTopPopup = true
-            setTimeout(() => {state.isShowTopPopup = false}, 1000)
+            setTimeout(() => {state.isShowTopPopup = false}, 8000)
         },
         showAlert(state, msg) {
             state.alertText = msg
