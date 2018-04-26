@@ -9,11 +9,19 @@
 				    <mu-menu-item value="en-US" :title="$t('message.English')"/>
 				</mu-dropDown-menu>
             </div>
+            <mu-dialog :open="isShowAlert" title="请输入您的秘钥" @close="close">
+                <mu-text-field hintText="请输入" style="width: 100%" />
+                <mu-flat-button slot="actions" @click="rebuild" primary label="忘记秘钥"/>
+                <mu-flat-button slot="actions" primary @click="saveKey" label="确定"/>
+            </mu-dialog>
+            <mu-dialog :open="rebuildAlert" title="提示" @close="close">
+                重新生成后将无法解密在此之前的信息，确定继续？
+                <mu-flat-button slot="actions" @click="rebuildAlert = false" primary label="取消"/>
+                <mu-flat-button slot="actions" primary @click="$router.replace('register')" label="确定"/>
+            </mu-dialog>
         </div>
         <footer>
-            <mu-text-field v-model="userid" :hintText="$t('message.loginInputTip')"/>
-            <mu-raised-button :label="$t('message.login')" @click.native="login" primary class="login-btn" />
-            <a class="register" href="#/register">{{$t('message.registerText')}}>></a>
+            <mu-raised-button :label="$t('message.login')" @click.native="auth" primary class="login-btn" />
         </footer>
     </div>
 </template>
@@ -23,33 +31,97 @@ export default {
     data() {
         return {
             userid: "",
+            isShowAlert: false,
+            rebuildAlert: false,
+            urlQuery: null,
+            secretKey: ""
         }
+    },
+    mounted() {
+        this.urlQuery = this.$route.query
     },
     methods: {
         login() {
-            if(this.userid.trim() == "") {
-                this.$store.commit("showTopPopup", "登录账号不能为空")
+            console.log(this.$route.query)
+            const urlQuery = this.$route.query
+            // 判断是否为新用户
+            if(this.$route.query.userStatus == 0) {
+                this.$router.replace({path: 'register', query: {userId: this.$route.query.userId, userStatus: this.$route.query.userStatus}})
                 return;
             }
-            this.$store.commit("WSsend", {
-                data: {
-                    method: "login",
-                    params: [this.userid]
-                },
-                callback: (res) => {
-                    if(res.code == 200 && res.method == "login") {
-                        localStorage.setItem("pub_key", res.result[0].pub_key)
-                        localStorage.setItem("sec_key", res.result[0].sec_key)
-                        sessionStorage.setItem('userid', this.userid)
-                        this.$router.replace("chatlist")
+            let keyStore = JSON.parse(localStorage.getItem("key_store"))
+            if(!keyStore) {
+                // 弹出秘钥输入框
+                this.isShowAlert = true
+                return
+            }
+            // 验证本地是否有秘钥
+            console.log(keyStore.userid,urlQuery.userId,keyStore.sec_key)
+            if(keyStore.userid == urlQuery.userId) {
+                console.log(222)
+                this.$store.commit("WSsend", {
+                    data: {
+                        method: "login",
+                        params: [urlQuery.userId]
+                    },
+                    callback: (res) => {
+                        if(res.code == 200 && res.method == "login") {
+                            localStorage.setItem("pub_key", res.result[0].pub_key)
+                            localStorage.setItem("sec_key", res.result[0].sec_key)
+                            sessionStorage.setItem('userid', urlQuery.userId)
+                            this.$router.replace("chatlist")
+                        }
                     }
-                }
-            })
+                })
+            }else {
+                console.log(55644)
+                // 弹出秘钥输入框
+                this.isShowAlert = true
+            }
+            
         },
         handleChange (langValue) {
 	      this.$store.state.langValue = langValue
 	      this.$i18n.locale = langValue
-	    }
+        },
+        close () {
+            this.isShowAlert = false
+        },
+        // 重新生成
+        rebuild() {
+            this.isShowAlert = false
+            this.rebuildAlert = true
+        },
+        auth() {
+            if(!this.$route.query.authCode) {
+                this.$store.commit("showAlert", "登录环境异常")
+                return
+            }
+            console.log([this.$route.query.userId, this.$route.query.authCode])
+            this.$store.commit("WSsend", {
+                data: {
+                    method: "auth",
+                    params: [this.$route.query.userId, this.$route.query.authCode]
+                },
+                callback: (res) => {
+                    if(res.code == 200 && res.method == "auth") {
+                        this.login()
+                    }else {
+                        this.$store.commit("showAlert", "登录环境异常")
+                    }
+                    
+                }
+            })
+        },
+        saveKey() {
+            localStorage.setItem("key_store", JSON.stringify({userid: this.$route.query.userId, sec_key: this.secretKey}))
+            this.login()
+        }
+    },
+    computed: {
+        safetyStatus() {
+            return this.$store.state.safetyStatus
+        }
     }
 }
 </script>
@@ -114,7 +186,7 @@ export default {
         }
         .login-btn {
             width: 80%;
-            margin-bottom: 10%;
+            margin-bottom: 40%;
         }
         h3 {
             font-size: 20px;

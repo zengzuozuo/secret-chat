@@ -2,6 +2,7 @@
   <div id="app">
     <router-view/>
     <mu-popup position="top" popupClass="popup-top" :overlay="false" :open="$store.state.isShowTopPopup">{{$store.state.tipText}}</mu-popup>
+    <mu-popup position="top" popupClass="popup-top-success" :overlay="false" :open="$store.state.isShowSuccess">{{$store.state.tipText}}</mu-popup>
     <div class="loading-shade" v-show="$store.state.loading">
       <div class="loading-box">
           <embed src='static/svg/loading.svg' type='image/svg+xml' pluginspage='http://www.adobe.com/svg/viewer/install/' />
@@ -46,6 +47,19 @@ li {
     max-width: 375px;
     box-shadow: 0 0 10px #d5d5d5;
     background-color: #db2828 !important;
+    color: #fff;
+    border-radius: 2px;
+}
+.popup-top-success {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 375px;
+    box-shadow: 0 0 10px #d5d5d5;
+    background-color: #7e57c2 !important;
     color: #fff;
     border-radius: 2px;
 }

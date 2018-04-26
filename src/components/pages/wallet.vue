@@ -7,7 +7,7 @@
                     <label>您的地址</label>
                     <p>{{userid}}</p>
                 </div>
-                <mu-raised-button label="复制" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
+                <mu-raised-button :label="$t('message.copy')" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
             </div>
             <p class="tip">把地址发给他人，他人即可通过密聊发送相应的信息到您的地址</p>
             <div class="menu" v-if="pageData">
@@ -54,11 +54,7 @@ export default {
         copy() {
             var clipboard = new Clipboard('.tag-read')  
             clipboard.on('success', e => {  
-                this.toastMessage = "复制成功"
-                this.toast = true
-                setTimeout(() => {
-                    this.toast = false
-                },1000)
+                this.$store.commit("showTopSuccess", this.$t('message.copySuccess'))
                 // 释放内存  
                 clipboard.destroy()  
             })  

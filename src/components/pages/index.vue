@@ -3,13 +3,13 @@
         <router-view class="index-tab-view"></router-view>
         <footer class="footer-bar">
             <mu-tabs :value="activeTab" lineClass="activeline" @change="handleTabChange">
-                <mu-tab value="wallet" @click.native="switchTo('wallet')" href="javascript:;" title="个人">
+                <mu-tab value="wallet" @click.native="switchTo('wallet')" href="javascript:;" :title="$t('message.my')">
                     <i class="iconfont">&#xe611;</i>
                 </mu-tab>
-                <mu-tab value="chatlist" @click.native="switchTo('chatlist')" href="javascript:;" title="聊天">
+                <mu-tab value="chatlist" @click.native="switchTo('chatlist')" href="javascript:;" :title="$t('message.chat')">
                     <i class="iconfont">&#xe663;</i>
                 </mu-tab>
-                <mu-tab value="setting" @click.native="switchTo('setting')" href="javascript:;" title="设置">
+                <mu-tab value="setting" @click.native="switchTo('setting')" href="javascript:;" :title="$t('message.set')">
                     <i class="iconfont">&#xe68e;</i>
                 </mu-tab>
                 <!-- <mu-tab value="tab4" href="javascript:;" title="退出" @click.native="loginOut">

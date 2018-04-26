@@ -9,6 +9,7 @@ export default new Vuex.Store({
         ws: null,
         chatUserList: {},
         isShowTopPopup: false, //顶部提示框
+        isShowSuccess: false,
         isShowAlert: false,
         alertText: "",
         tipText: "",  //提示文字
@@ -20,7 +21,8 @@ export default new Vuex.Store({
         registerUserid: "",
         minute5logout: false,
         timer: null,
-        langValue: "zh-CN"   //当前语言
+        langValue: "zh-CN",   //当前语言
+        safetyStatus: false
     },
     mutations: {
         WSconnect(state, url) {
@@ -70,6 +72,7 @@ export default new Vuex.Store({
                         return;
                     }
                     if(data.code != 200) return;
+                    console.log(data)
                     switch(data.method) {
                         case 'pushMessage':
                             let mingwen = decodeMessage(data.result.msg_data, data.result.msg_nonce, data.result.msg_pubkey)
@@ -95,8 +98,14 @@ export default new Vuex.Store({
                             state.registerUserid = data.result
                         break;
                         case 'login':
+                            
                             localStorage.setItem("pub_key", data.result[0].pub_key)
                             localStorage.setItem("sec_key", data.result[0].sec_key)
+                            localStorage.setItem("userid", data.result[0].user_id)
+                            localStorage.setItem("key_store", JSON.stringify({userid: data.result[0].user_id, sec_key: data.result[0].sec_key}))
+                        break;
+                        case 'auth':
+                            state.safetyStatus = true
                         break;
                     }
                 }
@@ -152,10 +161,11 @@ export default new Vuex.Store({
             }
         },
         addChatUser(state, data) {
-            if(data.list[0].message.trim() == "") return
             state.changeM = new Date().getTime()
             if(state.chatUserList.hasOwnProperty(data.userid)) {
-                state.chatUserList[data.userid].list.push(data.list[0])
+                if(data.list.length > 0) {
+                    state.chatUserList[data.userid].list.push(data.list[0])
+                }
                 state.chatUserList[data.userid].pk = data.pk
             }else {
                 state.chatUserList[data.userid] = data
@@ -165,6 +175,11 @@ export default new Vuex.Store({
             state.tipText = msg
             state.isShowTopPopup = true
             setTimeout(() => {state.isShowTopPopup = false}, 1000)
+        },
+        showTopSuccess(state, msg) {
+            state.tipText = msg
+            state.isShowSuccess = true
+            setTimeout(() => {state.isShowSuccess = false}, 1000)
         },
         showAlert(state, msg) {
             state.alertText = msg

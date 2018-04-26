@@ -1,7 +1,7 @@
 <template>
     <div class="chat-list-page">
         <div class="main">
-            <div class="add-chat" @click="$router.push('addchat')">
+            <div class="add-chat" @click="isShowAlert = true">
                 <i class="iconfont">&#xe60d;</i>
                 <div class="content">开始新的聊天</div>
                 <div style="display: none">{{changeM}}</div>
@@ -18,6 +18,11 @@
                     </div>
                 </li>
             </ul>
+            <mu-dialog :open="isShowAlert" title="请输入对方地址">
+                <mu-text-field v-model="to_user_id" hintText="请输入" style="width: 100%" />
+                <mu-flat-button slot="actions" primary @click="isShowAlert = false" label="取消"/>
+                <mu-flat-button slot="actions" primary @click="getUserInfo" label="确定"/>
+            </mu-dialog>
         </div>
     </div>
 </template>
@@ -25,7 +30,52 @@
 <script>
 export default {
     data() {
-        return {}
+        return {
+            isShowAlert: false,
+            to_user_id: ""
+        }
+    },
+    methods: {
+        addChat(publicKey) {
+            this.$store.commit("addChatUser", {
+                userid: this.to_user_id,
+                list: [],
+                pk: publicKey
+            })
+            this.$router.replace({
+                path: 'chatin',
+                query: {
+                    id: this.to_user_id
+                }
+            })
+        },
+        getUserInfo() {
+            if(this.to_user_id.trim() == "") {
+                this.$store.commit("showTopPopup","对方地址不能为空")
+                return;
+            }
+            if(this.to_user_id == sessionStorage.getItem("userid")) {
+                this.$store.commit("showTopPopup","无法向自己发送")
+                return;
+            }
+            this.$store.state.loading = true
+            this.timestamp = new Date().getTime()
+            this.$store.commit("WSsend", {
+                data: {
+                    method: "getUserInfo",
+                    params: [this.to_user_id, this.timestamp]
+                },
+                callback: (res) => {
+                    console.log(1111)
+                    if(!res.serial) return;
+                    if(res.code === 200 && res.method == "getUserInfo") {
+                        if(res.serial != this.timestamp) return;
+                        this.addChat(res.result[0].pub_key)
+                    }
+                }
+            })
+            
+        },
     },
     computed: {
         chatListData(){
@@ -79,13 +129,18 @@ export default {
                     text-align: left;
                     padding: 0 10px;
                     font-size: 16px;
+                    overflow: hidden;
                     div {
                         display: flex;
                         align-items: center;
+                        overflow: hidden;
                         h3 {
                             flex: 1;
                             font-size: 16px;
                             font-weight: normal;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                         span {
                             font-size: 12px;
