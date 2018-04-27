@@ -24,7 +24,7 @@ export default {
     },
     methods: {
         logout() {
-            const userid = sessionStorage.getItem("userid")
+            const userid = localStorage.getItem("userid")
             this.$store.commit("WSsend", {
                 data: {
                     method: "logout",
@@ -43,7 +43,7 @@ export default {
             if(!newval) return;
             this.$store.state.timer = setTimeout(() => {
                 this.$store.state.minute5logout = false                            
-                let userid = sessionStorage.getItem("userid")
+                let userid = localStorage.getItem("userid")
                 this.$store.commit("WSsend", {
                     data: {
                         method: "logout",

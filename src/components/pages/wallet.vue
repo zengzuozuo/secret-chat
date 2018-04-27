@@ -2,12 +2,12 @@
     <div class="wallet-page">
         <div class="main">
             <div class="menu">
-                <i class="iconfont">&#xe611;</i>
+                <i class="iconfont">&#xe7b8;</i>
                 <div class="content">
-                    <label>您的地址</label>
+                    <!-- <label>您的地址</label> -->
                     <p>{{userid}}</p>
                 </div>
-                <mu-raised-button :label="$t('message.copy')" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
+                <mu-raised-button :label="$t('message.copyaddress')" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
             </div>
             <p class="tip">把地址发给他人，他人即可通过密聊发送相应的信息到您的地址</p>
             <div class="menu" v-if="pageData">
@@ -19,8 +19,8 @@
             </div>
             <ul class="combo-list" v-if="pageData">
                 <li v-for="item in pageData.result">
-                    <label>{{item.title}}</label>
-                    <div class="content">{{item.memo}}</div>
+                    <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}}</label>
+                    <div class="content">{{$store.state.langValue == "zh-CN" ? item.cn_memo : item.en_memo}}</div>
                     <mu-raised-button label="限时免费" v-if="item.amount == 0" @click.native="buy(item.pack_id)" />
                     <mu-raised-button :label="item.amount + 'SAC'" v-if="item.amount != 0" @click.native="buy(item.pack_id)" />
                 </li>
@@ -40,7 +40,7 @@ import Clipboard from 'clipboard'
 export default {
     data () {
         return {
-            userid: sessionStorage.getItem('userid') || "",
+            userid: localStorage.getItem('userid') || "",
             toast: false,
             toastMessage: "",
             pageData: null,
@@ -94,7 +94,6 @@ export default {
                     if(res.code == 200 && res.method == "buyTariffPackages") {
                         if(res.serial != this.timestamp) return;
                         console.log(res)
-                        console.log(1111)
                         if(res.result == "OK") {
                             this.$store.commit("showAlert", "购买成功")
                             this.getData()
@@ -133,7 +132,8 @@ export default {
                 p {
                     white-space: wrap;
                     overflow: hidden;
-                    word-wrap:break-word
+                    word-wrap:break-word;
+                    color: #7e57c2;
                 }
             }
             

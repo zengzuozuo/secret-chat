@@ -25,10 +25,10 @@ const router = new Router({
         isLogin: true
       },
       children: [
-        {path: 'wallet', name: 'wallet', component: Wallet},
+        {path: 'wallet', name: 'wallet', component: Wallet, meta: {isLogin: true}},
         {path: 'chatlist', name: 'chatlist', component: ChatList, meta: {isLogin: true}},
-        {path: 'setting', name: 'setting', component: Setting},
-        {path: 'addchat', name: 'addchat', component: AddChat}
+        {path: 'setting', name: 'setting', component: Setting, meta: {isLogin: true}},
+        {path: 'addchat', name: 'addchat', component: AddChat, meta: {isLogin: true}}
       ]
     },
     {
@@ -56,7 +56,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   // 登录拦截
   if(to.meta.isLogin) {
-		if(!sessionStorage.getItem("userid")) {
+		if(!localStorage.getItem("userid")) {
       next({path: "login"})
 		} else {
 			next(true);

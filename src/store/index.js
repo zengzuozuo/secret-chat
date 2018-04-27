@@ -28,9 +28,7 @@ export default new Vuex.Store({
         WSconnect(state, url) {
             if(!url) {
                 console.error("websocket连接地址有误")
-                state.tipText = "服务器连接地址有误"
-                state.isShowTopPopup = true
-                setTimeout(() => {state.isShowTopPopup = false}, 2000)
+                this.commit("showTopPopup", "服务器连接地址有误")
                 return;
             }
             if ("WebSocket" in window) {
@@ -47,6 +45,8 @@ export default new Vuex.Store({
                             }
                         })
                     }
+                    // 从缓存中恢复聊天记录
+                    state.chatUserList = JSON.parse(localStorage.getItem("CHATDATA")) || {}
                 }
                 state.ws.onmessage = (res) => {
                     if(state.timer) {
@@ -68,11 +68,14 @@ export default new Vuex.Store({
                     let data = JSON.parse(res.data)
                     console.log(data)
                     if(data.code == 3001) {
-                        this.commit("showTopPopup", data.result)
+                        if(state.langValue == "zh-CN") {
+                            this.commit("showTopPopup", data.result.cn)
+                        }else {
+                            this.commit("showTopPopup", data.result.en)   
+                        }
                         return;
                     }
                     if(data.code != 200) return;
-                    console.log(data)
                     switch(data.method) {
                         case 'pushMessage':
                             let mingwen = decodeMessage(data.result.msg_data, data.result.msg_nonce, data.result.msg_pubkey)
@@ -82,7 +85,8 @@ export default new Vuex.Store({
                                 list: [
                                     {
                                         message: mingwen,
-                                        self: false
+                                        self: false,
+                                        time: data.result.msg_time
                                     }
                                 ],
                                 pk: data.result.msg_pubkey
@@ -91,6 +95,7 @@ export default new Vuex.Store({
                         case 'logout':
                             localStorage.removeItem("pub_key")
                             localStorage.removeItem("sec_key")
+                            localStorage.removeItem("userid")
                             sessionStorage.removeItem("userid")
                             router.replace('login')
                         break;
@@ -98,10 +103,10 @@ export default new Vuex.Store({
                             state.registerUserid = data.result
                         break;
                         case 'login':
-                            
                             localStorage.setItem("pub_key", data.result[0].pub_key)
                             localStorage.setItem("sec_key", data.result[0].sec_key)
                             localStorage.setItem("userid", data.result[0].user_id)
+                            sessionStorage.setItem("userid", data.result[0].user_id)
                             localStorage.setItem("key_store", JSON.stringify({userid: data.result[0].user_id, sec_key: data.result[0].sec_key}))
                         break;
                         case 'auth':
@@ -114,6 +119,7 @@ export default new Vuex.Store({
                     console.log("连接已关闭")
                     this.commit("showTopPopup", "连接已关闭")
                     state.loading = true
+                    // 断线重连
                     this.commit("WSconnect", "ws://13.231.69.243:3000/")
                 }
             }else {
@@ -170,6 +176,8 @@ export default new Vuex.Store({
             }else {
                 state.chatUserList[data.userid] = data
             }
+            // 缓存聊天记录
+            localStorage.setItem("CHATDATA", JSON.stringify(state.chatUserList))
         },
         showTopPopup(state, msg) {
             state.tipText = msg
@@ -184,7 +192,6 @@ export default new Vuex.Store({
         showAlert(state, msg) {
             state.alertText = msg
             state.isShowAlert = true
-
         }
     }
 })

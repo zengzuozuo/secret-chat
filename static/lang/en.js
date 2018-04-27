@@ -11,6 +11,7 @@ module.exports={
     registerText: 'No account?Create a new anonymous account',
     safety: 'Safety',
     copy: 'copy',
+    copyaddress: 'copy Address',
     copySuccess: 'Copy success',
     Connectionclosed: 'Connection closed',
 

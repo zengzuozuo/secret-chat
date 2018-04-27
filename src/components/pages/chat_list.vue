@@ -12,9 +12,11 @@
                     <div class="content">
                         <div>
                             <h3>{{item.userid}}</h3>
-                            <span>今天12:12</span>
+                            <span v-if="item.list.length > 0">{{item.list[item.list.length - 1].time}}</span>
+                            
                         </div>
-                        <p>{{item.list[item.list.length - 1].message}}</p>
+                        <p v-if="item.list.length > 0">{{item.list[item.list.length - 1].message}}</p>
+                        <p v-if="item.list.length <= 0">无</p>
                     </div>
                 </li>
             </ul>
@@ -42,7 +44,7 @@ export default {
                 list: [],
                 pk: publicKey
             })
-            this.$router.replace({
+            this.$router.push({
                 path: 'chatin',
                 query: {
                     id: this.to_user_id
@@ -54,7 +56,7 @@ export default {
                 this.$store.commit("showTopPopup","对方地址不能为空")
                 return;
             }
-            if(this.to_user_id == sessionStorage.getItem("userid")) {
+            if(this.to_user_id == localStorage.getItem("userid")) {
                 this.$store.commit("showTopPopup","无法向自己发送")
                 return;
             }

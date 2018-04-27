@@ -11,7 +11,6 @@
             </div>
             <p class="tip">重要提示：<br />此密钥将用户加解密您的聊天信息<br />请务必保存您的秘钥.如果丢失, 将无法找回 ！<br />请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！</p>
             <div class="login-container">
-                <!-- <mu-text-field v-model="loginUserid" hintText="请输入您的短信密码语句进行登录"/> -->
                 <mu-raised-button label="我已保存，去聊天!" v-show="isRegisterOk" @click.native="login" primary class="login-btn"/>
             </div>
             <mu-toast v-if="toast" :message="toastMessage" class="tipbox" />
@@ -56,6 +55,7 @@ export default {
             })  
         },
         register() {
+            // 生成秘钥
             const keyPair = nacl.box.keyPair();
             const publicKey = nacl.util.encodeBase64(keyPair.publicKey)
             const secretKey = nacl.util.encodeBase64(keyPair.secretKey)
@@ -68,6 +68,10 @@ export default {
                 },
                 callback: (res) => {
                     if(res.code == 200 && res.method == "register") {
+                        sessionStorage.setItem("userid", urlQuery.userId)
+                        localStorage.setItem("userid", urlQuery.userId)
+                        localStorage.setItem("pub_key", publicKey)
+                        localStorage.setItem("sec_key", secretKey)
                         this.secretKey = secretKey  //显示用户秘钥
                         this.isRegisterOk = true  
                     }
@@ -83,10 +87,6 @@ export default {
                 },
                 callback: (res) => {
                     if(res.code == 200 && res.method == "login" && res.serial == this.timestamp) {
-                        localStorage.setItem("pub_key", res.result[0].pub_key)
-                        localStorage.setItem("sec_key", res.result[0].sec_key)
-                        localStorage.setItem("userid", res.result[0].user_id)
-                        sessionStorage.setItem("userid", res.result[0].user_id)
                         this.$router.replace("chatlist")
                     }
                 }

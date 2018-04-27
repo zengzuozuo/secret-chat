@@ -9,12 +9,12 @@
 				    <mu-menu-item value="en-US" :title="$t('message.English')"/>
 				</mu-dropDown-menu>
             </div>
-            <mu-dialog :open="isShowAlert" title="请输入您的秘钥" @close="close">
-                <mu-text-field hintText="请输入" style="width: 100%" />
+            <mu-dialog :open="isShowAlert" title="请输入您的秘钥">
+                <mu-text-field v-model="secretKey" hintText="请输入" style="width: 100%" />
                 <mu-flat-button slot="actions" @click="rebuild" primary label="忘记秘钥"/>
                 <mu-flat-button slot="actions" primary @click="saveKey" label="确定"/>
             </mu-dialog>
-            <mu-dialog :open="rebuildAlert" title="提示" @close="close">
+            <mu-dialog :open="rebuildAlert" title="提示">
                 重新生成后将无法解密在此之前的信息，确定继续？
                 <mu-flat-button slot="actions" @click="rebuildAlert = false" primary label="取消"/>
                 <mu-flat-button slot="actions" primary @click="$router.replace('register')" label="确定"/>
@@ -33,7 +33,7 @@ export default {
             userid: "",
             isShowAlert: false,
             rebuildAlert: false,
-            urlQuery: null,
+            urlQuery: null,  //地址栏参数
             secretKey: ""
         }
     },
@@ -42,11 +42,9 @@ export default {
     },
     methods: {
         login() {
-            console.log(this.$route.query)
-            const urlQuery = this.$route.query
             // 判断是否为新用户
-            if(this.$route.query.userStatus == 0) {
-                this.$router.replace({path: 'register', query: {userId: this.$route.query.userId, userStatus: this.$route.query.userStatus}})
+            if(this.urlQuery.userStatus == 0) {
+                this.$router.replace({path: 'register', query: {userId: this.urlQuery.userId, userStatus: this.urlQuery.userStatus}})
                 return;
             }
             let keyStore = JSON.parse(localStorage.getItem("key_store"))
@@ -56,48 +54,45 @@ export default {
                 return
             }
             // 验证本地是否有秘钥
-            console.log(keyStore.userid,urlQuery.userId,keyStore.sec_key)
-            if(keyStore.userid == urlQuery.userId) {
-                console.log(222)
+            if(keyStore.userid == this.urlQuery.userId) {
+                // 登录
                 this.$store.commit("WSsend", {
                     data: {
                         method: "login",
-                        params: [urlQuery.userId]
+                        params: [this.urlQuery.userId]
                     },
                     callback: (res) => {
                         if(res.code == 200 && res.method == "login") {
                             localStorage.setItem("pub_key", res.result[0].pub_key)
                             localStorage.setItem("sec_key", res.result[0].sec_key)
-                            sessionStorage.setItem('userid', urlQuery.userId)
+                            localStorage.setItem('userid', this.urlQuery.userId)
+                            sessionStorage.setItem('userid', this.urlQuery.userId)
                             this.$router.replace("chatlist")
                         }
                     }
                 })
             }else {
-                console.log(55644)
                 // 弹出秘钥输入框
                 this.isShowAlert = true
             }
             
         },
+        // 切换语言
         handleChange (langValue) {
 	      this.$store.state.langValue = langValue
 	      this.$i18n.locale = langValue
-        },
-        close () {
-            this.isShowAlert = false
         },
         // 重新生成
         rebuild() {
             this.isShowAlert = false
             this.rebuildAlert = true
         },
+        // 验证
         auth() {
             if(!this.$route.query.authCode) {
                 this.$store.commit("showAlert", "登录环境异常")
                 return
             }
-            console.log([this.$route.query.userId, this.$route.query.authCode])
             this.$store.commit("WSsend", {
                 data: {
                     method: "auth",
@@ -113,8 +108,15 @@ export default {
                 }
             })
         },
+        // 保存秘钥
         saveKey() {
-            localStorage.setItem("key_store", JSON.stringify({userid: this.$route.query.userId, sec_key: this.secretKey}))
+            console.log(this.secretKey)
+            if(this.secretKey.trim() == "") {
+                this.$store.commit("showTopPopup", "您输入的秘钥不能为空")
+                return;
+            }
+            localStorage.setItem("sec_key", this.secretKey)
+            localStorage.setItem("key_store", JSON.stringify({userid: this.urlQuery.userId, sec_key: this.secretKey}))
             this.login()
         }
     },
