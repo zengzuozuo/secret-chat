@@ -42,6 +42,7 @@ export default {
     },
     methods: {
         login() {
+            this.urlQuery = this.$route.query
             // 判断是否为新用户
             if(this.urlQuery.userStatus == 0) {
                 this.$router.replace({path: 'register', query: {userId: this.urlQuery.userId, userStatus: this.urlQuery.userStatus}})
