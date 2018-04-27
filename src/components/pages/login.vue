@@ -81,7 +81,8 @@ export default {
         // 切换语言
         handleChange (langValue) {
 	      this.$store.state.langValue = langValue
-	      this.$i18n.locale = langValue
+          this.$i18n.locale = langValue
+            sessionStorage.setItem("LANG", langValue)
         },
         // 重新生成
         rebuild() {
@@ -102,8 +103,6 @@ export default {
                 callback: (res) => {
                     if(res.code == 200 && res.method == "auth") {
                         this.login()
-                    }else {
-                        this.$store.commit("showAlert", "登录环境异常")
                     }
                     
                 }
@@ -153,6 +152,7 @@ export default {
         }
         p {
             text-align: center;
+            padding: 0 20px;
         }
         .lang-switch {
         	position: absolute;

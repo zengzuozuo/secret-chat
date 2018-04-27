@@ -9,25 +9,25 @@
                 </div>
                 <mu-raised-button :label="$t('message.copyaddress')" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
             </div>
-            <p class="tip">把地址发给他人，他人即可通过密聊发送相应的信息到您的地址</p>
+            <p class="tip">{{$t('message.wallet1')}}</p>
             <div class="menu" v-if="pageData">
                 <i class="iconfont">&#xe781;</i>
                 <div class="content">
-                    <label>您的余额</label>
+                    <label>{{$t('message.wdye')}}</label>
                 </div>
-                <div class="balance"><span>{{pageData.balance}}</span>条</div>
+                <div class="balance"><span>{{pageData.balance}}</span>{{$t('message.wallet2')}}</div>
             </div>
             <ul class="combo-list" v-if="pageData">
                 <li v-for="item in pageData.result">
                     <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}}</label>
                     <div class="content">{{$store.state.langValue == "zh-CN" ? item.cn_memo : item.en_memo}}</div>
-                    <mu-raised-button label="限时免费" v-if="item.amount == 0" @click.native="buy(item.pack_id)" />
+                    <mu-raised-button :label="$t('message.wallet4')" v-if="item.amount == 0" @click.native="buy(item.pack_id)" />
                     <mu-raised-button :label="item.amount + 'SAC'" v-if="item.amount != 0" @click.native="buy(item.pack_id)" />
                 </li>
             </ul>
             <div class="flex-wrap">
-                <p class="tip no-border">备注：您充值的sac，一部分是以太坊公网收取的，一部分是我们的运营开发费用。</p>
-                <i class="iconfont" @click="$router.push('specification')">&#xe600;</i>
+                <p class="tip no-border">{{$t('message.wallet3')}}</p>
+                <!-- <i class="iconfont" @click="$router.push('specification')">&#xe600;</i> -->
             </div>
             <mu-toast v-if="toast" :message="toastMessage" class="tipbox" />
         </div>
@@ -70,6 +70,7 @@ export default {
         },
         getData() {
             this.timestamp = new Date().getTime()
+            console.log([this.userid, this.timestamp])
             this.$store.commit("WSsend", {
                 data: {
                     method: "getTariffPackages",
@@ -154,6 +155,7 @@ export default {
         .tip {
             margin: 10px 0;
             font-size: 12px;
+            color: #999;
         }
         .flex-wrap {
             display: flex;

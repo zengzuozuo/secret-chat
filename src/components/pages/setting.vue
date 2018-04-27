@@ -5,12 +5,25 @@
                 <li>
                     <h3>{{$t('message.safety')}}</h3>
                     <div class="content">
-                        <mu-checkbox v-model="$store.state.minute5logout" label="5分钟后，自动退出应用，退出后，需要重新输入秘钥" class="demo-checkbox"/>
+                        <mu-checkbox v-model="$store.state.minute5logout" :label="$t('message.set1')" class="demo-checkbox"/>
                     </div>
+                </li>
+                <li>
+                    <h3>{{$t('message.set2')}}
+                        <mu-dropDown-menu :value="$store.state.langValue" @change="handleChange">
+                            <mu-menu-item value="zh-CN" :title="$t('message.Chinese')"/>
+                            <mu-menu-item value="en-US" :title="$t('message.English')"/>
+                        </mu-dropDown-menu>
+                    </h3>
+                    
                 </li>
             </ul>
             <mu-raised-button class="logout-btn" :label="$t('message.logout')" @click.native="logout" fullWidth primary/>            
-            <p class="other-test-info">您所有的聊天，都是通过区块链浏览器加密，不会储存在第三方平台。<br /><br />只要保存好您的密钥，您的隐私就可以得到保护。如果有人想恶意破解您的聊天，以目前计算机的能力，需要算好几百亿年。<br /><br />您的所有信息，都会加密上链。您可以去以太坊的区块链浏览器查询所有与内容无关的聊天信息。<br /><br />以太坊是全球公认的区块链技术，用户众多，要想在这个网络作弊，需要说服51%的以太坊网络的计算能力，安全性极高。密信第一期放在以太坊公链上，将对您的聊天信息进行安全加密。</p>
+            <p class="other-test-info">
+                {{$t('message.specification1')}}<br /><br />
+                {{$t('message.specification2')}}<br /><br />    
+                {{$t('message.specification3')}}<br /><br />
+            </p>
         </div>
     </div>
 </template>
@@ -31,7 +44,13 @@ export default {
                     params: [userid]
                 }
             })
-        }
+        },
+        // 切换语言
+        handleChange (langValue) {
+	      this.$store.state.langValue = langValue
+          this.$i18n.locale = langValue
+            sessionStorage.setItem("LANG", langValue)
+        },
     },
     computed: {
         storeMinute5logout() {

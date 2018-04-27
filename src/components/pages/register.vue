@@ -4,12 +4,12 @@
             <i class="iconfont" slot="left" @click="$router.go(-1)">&#xe621;</i>
         </mu-appbar> -->
         <div class="main">
-            <p class="label">您的秘钥已经生成</p>
+            <p class="label">{{$t('message.register1')}}</p>
             <div class="textarea-wrap">
                 <textarea v-model="secretKey" disabled></textarea>
                 <mu-raised-button :label="$t('message.copy')" :data-clipboard-text="secretKey" @click.native="copy" class="tag-read"/>
             </div>
-            <p class="tip">重要提示：<br />此密钥将用户加解密您的聊天信息<br />请务必保存您的秘钥.如果丢失, 将无法找回 ！<br />请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！</p>
+            <p class="tip">{{$t('message.register2')}}：<br />{{$t('message.register3')}}<br />{{$t('message.register4')}}<br />{{$t('message.register5')}}</p>
             <div class="login-container">
                 <mu-raised-button label="我已保存，去聊天!" v-show="isRegisterOk" @click.native="login" primary class="login-btn"/>
             </div>

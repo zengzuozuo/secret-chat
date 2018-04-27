@@ -3,7 +3,7 @@
         <div class="main">
             <div class="add-chat" @click="isShowAlert = true">
                 <i class="iconfont">&#xe60d;</i>
-                <div class="content">开始新的聊天</div>
+                <div class="content">{{$t('message.chatlist1')}}</div>
                 <div style="display: none">{{changeM}}</div>
             </div>
             <ul>
@@ -20,10 +20,10 @@
                     </div>
                 </li>
             </ul>
-            <mu-dialog :open="isShowAlert" title="请输入对方地址">
-                <mu-text-field v-model="to_user_id" hintText="请输入" style="width: 100%" />
-                <mu-flat-button slot="actions" primary @click="isShowAlert = false" label="取消"/>
-                <mu-flat-button slot="actions" primary @click="getUserInfo" label="确定"/>
+            <mu-dialog :open="isShowAlert" :title="$t('message.chatlist2')">
+                <mu-text-field v-model="to_user_id" :hintText="$t('message.chatlist5')" style="width: 100%" />
+                <mu-flat-button slot="actions" primary @click="isShowAlert = false" :label="$t('message.chatlist4')"/>
+                <mu-flat-button slot="actions" primary @click="getUserInfo" :label="$t('message.chatlist3')"/>
             </mu-dialog>
         </div>
     </div>
