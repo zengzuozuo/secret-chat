@@ -5,17 +5,19 @@
                 <li>
                     <h3>{{$t('message.safety')}}</h3>
                     <div class="content">
-                        <mu-checkbox v-model="$store.state.minute5logout" :label="$t('message.set1')" class="demo-checkbox"/>
+                        <mu-checkbox v-model="$store.state.minute5logout" class="demo-checkbox"/>
+                        <p class="flex1">{{$t('message.set1')}}</p>
                     </div>
                 </li>
                 <li>
-                    <h3>{{$t('message.set2')}}
-                        <mu-dropDown-menu :value="$store.state.langValue" @change="handleChange">
+                    <h3>{{$t('message.set2')}}</h3>
+                    <div class="content">
+                        <!-- <label>当前语言</label> -->
+                        <mu-dropDown-menu class="flex1" :value="$store.state.langValue" @change="handleChange">
                             <mu-menu-item value="zh-CN" :title="$t('message.Chinese')"/>
                             <mu-menu-item value="en-US" :title="$t('message.English')"/>
                         </mu-dropDown-menu>
-                    </h3>
-                    
+                    </div>
                 </li>
             </ul>
             <mu-raised-button class="logout-btn" :label="$t('message.logout')" @click.native="logout" fullWidth primary/>            
@@ -47,9 +49,9 @@ export default {
         },
         // 切换语言
         handleChange (langValue) {
-	      this.$store.state.langValue = langValue
-          this.$i18n.locale = langValue
-            sessionStorage.setItem("LANG", langValue)
+	        this.$store.state.langValue = langValue
+            this.$i18n.locale = langValue
+            localStorage.setItem("LANGUAGE", langValue)
         },
     },
     computed: {
@@ -92,7 +94,18 @@ export default {
                     line-height: 40px;
                 }
                 .content {
-                    margin: 20px auto;
+                    display: flex;
+                    margin: 10px auto;
+                    .flex1 {
+                        flex: 1;
+                        padding-left: 10px;
+                        .mu-dropDown-menu-line {
+                            margin: 0;
+                        }
+                        .mu-dropDown-menu-icon {
+                            right: 0;
+                        }
+                    }
                 }
             }
         }

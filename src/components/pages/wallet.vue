@@ -49,6 +49,8 @@ export default {
     },
     mounted() {
         this.getData();
+        this.$store.state.langValue = localStorage.getItem("LANGUAGE") || "zh-CN"
+        this.$i18n.locale = localStorage.getItem("LANGUAGE") || "zh-CN"
     },
     methods: {
         copy() {
@@ -59,11 +61,7 @@ export default {
                 clipboard.destroy()  
             })  
             clipboard.on('error', e => {  
-                this.toastMessage = "该浏览器不支持自动复制"
-                this.toast = true
-                setTimeout(() => {
-                    this.toast = false
-                },1000) 
+                this.$store.commit("showTopPopup", this.$t('message.tip01'))  //该浏览器不支持自动复制
                 // 释放内存  
                 clipboard.destroy()  
             })  
@@ -96,9 +94,10 @@ export default {
                         if(res.serial != this.timestamp) return;
                         console.log(res)
                         if(res.result == "OK") {
-                            this.$store.commit("showAlert", "购买成功")
+                            this.$store.commit("showAlert", $t('message.wallet5'))
                             this.getData()
                         }else {
+                            localStorage.setItem("LANGUAGE", this.$store.state.langValue)
                             window.location.href = res.result.payUrl
                         }
                         

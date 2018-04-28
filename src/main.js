@@ -29,6 +29,21 @@ const i18n = new VueI18n({
 //连接服务器
 store.commit("WSconnect","ws://13.231.69.243:3000/")
 
+Vue.prototype.$getStrLeng = function(str){ 
+  var realLength = 0; 
+  var len = str.length; 
+  var charCode = -1; 
+  for(var i = 0; i < len; i++){ 
+      charCode = str.charCodeAt(i); 
+      if (charCode >= 0 && charCode <= 128) {  
+          realLength += 1;
+      }else{  
+          // 如果是中文则长度加3 
+          realLength += 3; 
+      } 
+  }  
+  return realLength; 
+}
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

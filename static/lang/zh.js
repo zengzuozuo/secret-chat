@@ -14,6 +14,13 @@ module.exports={
     copyaddress: '复制地址',
     copySuccess: '复制成功',
     Connectionclosed: '连接已关闭',
+    login1: '请输入您的秘钥',
+    login2: '请输入',
+    login3: '忘记秘钥',
+    login4: '提示',
+    login5: '重新生成后将无法解密在此之前的信息，确定继续？',
+    login6: '登录环境异常',
+    login7: '您输入的秘钥不能为空',
 
     
     //index
@@ -27,13 +34,13 @@ module.exports={
     wallet2: '条',
     wallet3: '备注：您充值的sac，一部分是以太坊公网收取的，一部分是我们的运营费用。',
     wallet4: '限时免费',
+    wallet5: '购买成功',
 
     //register
     register1: '您的秘钥已经生成',
     register2: '重要提示',
-    register3: '此密钥将用户加解密您的聊天信息',
-    register4: '请务必保存您的秘钥.如果丢失, 将无法找回 ！',
-    register5: '请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！',
+    register3: '此密钥将用户加解密您的聊天信息。请务必保存您的秘钥.如果丢失, 将无法找回 ！请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！',
+    register6: '我已保存，去聊天!',
 
     //chatlist
     chatlist1: '开启新的聊天',
@@ -41,6 +48,15 @@ module.exports={
     chatlist3: '确定',
     chatlist4: '取消',
     chatlist5: '请输入',
+    chatlist6: '对方地址不能为空',
+    chatlist7: '无法向自己发送',
+    chatlist8: '无',
+
+    //chatin
+    chatin1: '匿名用户',
+    chatin2: '请输入您的消息',
+    chatin3: '发送内容不能为空',
+    chatin4: '字符长度超出限制',
 
     //tip
     dlzhbnwk: '登录账号不能为空',
@@ -51,7 +67,7 @@ module.exports={
     specification3: '您可以使用区块链浏览器查询聊天的呼叫信息。',
 
     //set
-    set1: '5分钟后，自动安全退出应用，下一次登录需要重新输入秘钥。',
+    set1: '5分钟后，自动安全退出应用，下一次登录需要重新输入密钥。',
     set2: '语言',
     
     welcome: "Welcome"

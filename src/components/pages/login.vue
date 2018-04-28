@@ -9,15 +9,15 @@
 				    <mu-menu-item value="en-US" :title="$t('message.English')"/>
 				</mu-dropDown-menu>
             </div>
-            <mu-dialog :open="isShowAlert" title="请输入您的秘钥">
-                <mu-text-field v-model="secretKey" hintText="请输入" style="width: 100%" />
-                <mu-flat-button slot="actions" @click="rebuild" primary label="忘记秘钥"/>
-                <mu-flat-button slot="actions" primary @click="saveKey" label="确定"/>
+            <mu-dialog :open="isShowAlert" :title="$t('message.login1')">
+                <mu-text-field v-model="secretKey" :hintText="$t('message.login2')" style="width: 100%" />
+                <mu-flat-button slot="actions" @click="rebuild" primary :label="$t('message.login3')"/>
+                <mu-flat-button slot="actions" primary @click="saveKey" :label="$t('message.chatlist3')"/>
             </mu-dialog>
-            <mu-dialog :open="rebuildAlert" title="提示">
-                重新生成后将无法解密在此之前的信息，确定继续？
-                <mu-flat-button slot="actions" @click="rebuildAlert = false" primary label="取消"/>
-                <mu-flat-button slot="actions" primary @click="$router.replace('register')" label="确定"/>
+            <mu-dialog :open="rebuildAlert" :title="$t('message.login4')">
+                {{$t('message.login5')}}
+                <mu-flat-button slot="actions" @click="rebuildAlert = false" primary :label="$t('message.chatlist4')"/>
+                <mu-flat-button slot="actions" primary @click="$router.replace({path: 'register', query: {userId: urlQuery.userId, userStatus: urlQuery.userStatus}})" :label="$t('message.chatlist3')"/>
             </mu-dialog>
         </div>
         <footer>
@@ -92,7 +92,7 @@ export default {
         // 验证
         auth() {
             if(!this.$route.query.authCode) {
-                this.$store.commit("showAlert", "登录环境异常")
+                this.$store.commit("showAlert", this.$t('message.login6'))
                 return
             }
             this.$store.commit("WSsend", {
@@ -112,7 +112,7 @@ export default {
         saveKey() {
             console.log(this.secretKey)
             if(this.secretKey.trim() == "") {
-                this.$store.commit("showTopPopup", "您输入的秘钥不能为空")
+                this.$store.commit("showTopPopup", this.$t('message.login7'))
                 return;
             }
             localStorage.setItem("sec_key", this.secretKey)

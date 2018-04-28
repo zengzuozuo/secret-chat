@@ -4,7 +4,7 @@
             <i class="iconfont" slot="left" @click="$router.go(-1)">&#xe621;</i>
             <div slot="left">
                 <p>{{$route.query.id}}</p>
-                <span>匿名用户</span>
+                <span>{{$t('message.chatin1')}}</span>
             </div>
         </mu-appbar>
         <div class="main" ref="main">
@@ -17,7 +17,7 @@
         </div>
         <footer>
             <div class="input-wrap">
-                <mu-text-field hintText="输入您的消息" v-model="messageText" multiLine :rows="1" :rowsMax="10"/>
+                <mu-text-field :hintText="$t('message.chatin2')" v-model="messageText" multiLine :rows="1" :rowsMax="6"/>
                 <i class="iconfont" @click="sendMessage" slot="left">&#xe60c;</i>
             </div>
             <div style="display: none">{{changeM}}</div>
@@ -43,8 +43,12 @@ export default {
     methods: {
         sendMessage() {
             if(this.messageText.trim() == "") {
-                this.$store.commit("showTopPopup","发送内容不能为空")
+                this.$store.commit("showTopPopup", this.$t('message.chatin3'))
                 return;
+            }
+            if(this.$getStrLeng(this.messageText) > 255) {
+                this.$store.commit("showTopPopup", this.$t('message.chatin4'))
+                return
             }
             const to_user_id = this.$route.query.id
             let publicKey = this.$store.state.chatUserList[to_user_id].pk

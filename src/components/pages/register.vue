@@ -9,9 +9,9 @@
                 <textarea v-model="secretKey" disabled></textarea>
                 <mu-raised-button :label="$t('message.copy')" :data-clipboard-text="secretKey" @click.native="copy" class="tag-read"/>
             </div>
-            <p class="tip">{{$t('message.register2')}}：<br />{{$t('message.register3')}}<br />{{$t('message.register4')}}<br />{{$t('message.register5')}}</p>
+            <p class="tip">{{$t('message.register2')}}：<br />{{$t('message.register3')}}</p>
             <div class="login-container">
-                <mu-raised-button label="我已保存，去聊天!" v-show="isRegisterOk" @click.native="login" primary class="login-btn"/>
+                <mu-raised-button :label="$t('message.register6')" v-show="isRegisterOk" @click.native="login" primary class="login-btn"/>
             </div>
             <mu-toast v-if="toast" :message="toastMessage" class="tipbox" />
         </div>

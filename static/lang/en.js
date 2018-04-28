@@ -14,6 +14,13 @@ module.exports={
     copyaddress: 'copy',
     copySuccess: 'Copy success',
     Connectionclosed: 'Connection closed',
+    login1: 'enter your key',
+    login2: 'Please enter',
+    login3: 'Forget your key',
+    login4: 'Tip',
+    login5: 'Will it not be able to decrypt the previous information before it is regenerated?',
+    login6: 'Login environment exception',
+    login7: 'The secret key you entered cannot be empty',
 
     //index
     my: 'My',
@@ -24,15 +31,15 @@ module.exports={
     wdye: 'Balance',
     wallet1: 'Send the address to someone else and someone can send the appropriate information to your address via a private chat',
     wallet2: 'pieces',
-    wallet3: 'Details of the membership fee:Notes: The sac you top up is charged by two sections -- the public network of the Ethereum on the one hand, and our platform on the other to maintain the operation and development.',
+    wallet3: 'Details of the membership fee:Notes: The sac you top up is charged by two sections -- the public network of the Ethereum on the one hand, and our platform on the other to maintain the operation.',
     wallet4: 'Spike',
+    wallet5: 'Purchase Succeeds',
 
     //register
-    register1: '您的秘钥已经生成',
-    register2: '重要提示',
-    register3: '此密钥将用户加解密您的聊天信息',
-    register4: '请务必保存您的秘钥.如果丢失, 将无法找回 ！',
-    register5: '请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！',
+    register1: 'Your secret key has been generated',
+    register2: 'important note',
+    register3: 'This key will be used to encrypt and decrypt your chat information. Be sure to save your secret key.If lost, no way to recover it.Please do not disclose to third parties, otherwise your information may be leaked, we are not responsible!',
+    register6: "I've saved it. Go to chat",
 
     //chatlist
     chatlist1: 'Start New Chat',
@@ -40,6 +47,15 @@ module.exports={
     chatlist3: 'Enter',
     chatlist4: 'cancel',
     chatlist5: 'Please enter',
+    chatlist6: 'The address cannot be empty',
+    chatlist7: "You can't send it to yourself",
+    chatlist8: 'nothing',
+
+    //chatin
+    chatin1: 'Anonymous User',
+    chatin2: 'Type your message',
+    chatin3: 'The send content cannot be empty',
+    chatin4: 'The character length exceeds the limit',
 
     //tip
     dlzhbnwk: 'The login account cannot be empty',

@@ -28,7 +28,11 @@ export default new Vuex.Store({
         WSconnect(state, url) {
             if(!url) {
                 console.error("websocket连接地址有误")
-                this.commit("showTopPopup", "服务器连接地址有误")
+                if(state.langValue == "zh-CN") {
+                    this.commit("showTopPopup", "服务器连接地址有误")
+                }else {
+                    this.commit("showTopPopup", "The server connection address is not correct")
+                }
                 return;
             }
             if ("WebSocket" in window) {
@@ -37,16 +41,19 @@ export default new Vuex.Store({
                     console.log("连接成功")
                     //关闭loading动画
                     state.loading = false
-                    if(sessionStorage.getItem("userid")) {
+                    if(localStorage.getItem("userid")) {
                         this.commit("WSsend", {
                             data: {
                                 method: "login",
-                                params: [sessionStorage.getItem("userid")]
+                                params: [localStorage.getItem("userid")]
                             }
                         })
+                        // 从缓存中恢复聊天记录
+                        state.chatUserList = JSON.parse(localStorage.getItem("CHATDATA")) || {}
+                    }else {
+                        localStorage.removeItem("CHATDATA")
                     }
-                    // 从缓存中恢复聊天记录
-                    state.chatUserList = JSON.parse(localStorage.getItem("CHATDATA")) || {}
+                    
                 }
                 state.ws.onmessage = (res) => {
                     if(state.timer) {
@@ -79,14 +86,29 @@ export default new Vuex.Store({
                     switch(data.method) {
                         case 'pushMessage':
                             let mingwen = decodeMessage(data.result.msg_data, data.result.msg_nonce, data.result.msg_pubkey)
-                            
+                            var timeStr = ""
+                            var nowTime = new Date()
+                            var time = new Date(data.result.msg_time * 1000)
+                            let Y = time.getFullYear()
+                            let M = (time.getMonth()+1 < 10 ? '0'+(time.getMonth()+1) : time.getMonth()+1)
+                            let D = time.getDate()
+                            let h = time.getHours()
+                            let m = time.getMinutes() <= 9 ? ("0" + time.getMinutes()) : time.getMinutes()
+                            let s = time.getSeconds() <= 9 ? ("0" + time.getSeconds()) : time.getSeconds()
+                            console.log(time)
+                            if(nowTime.getDate() == D) {
+                                timeStr = h + ":" + m + ":" + s
+                            }else {
+                                timeStr =M + "/" + D + " " + h + ":" + m + ":" + s
+                            }
                             this.commit("addChatUser", {
                                 userid: data.result.from_user_id,
                                 list: [
                                     {
                                         message: mingwen,
                                         self: false,
-                                        time: data.result.msg_time
+                                        time: timeStr,
+                                        timestamp: data.result.msg_time
                                     }
                                 ],
                                 pk: data.result.msg_pubkey
@@ -117,7 +139,11 @@ export default new Vuex.Store({
                 
                 state.ws.onclose = () => {
                     console.log("连接已关闭")
-                    this.commit("showTopPopup", "连接已关闭")
+                    if(state.langValue == "zh-CN") {
+                        this.commit("showTopPopup", "连接已关闭")
+                    }else {
+                        this.commit("showTopPopup", "Connection closed")
+                    }
                     state.loading = true
                     // 断线重连
                     this.commit("WSconnect", "ws://13.231.69.243:3000/")
@@ -182,7 +208,7 @@ export default new Vuex.Store({
         showTopPopup(state, msg) {
             state.tipText = msg
             state.isShowTopPopup = true
-            setTimeout(() => {state.isShowTopPopup = false}, 1000)
+            setTimeout(() => {state.isShowTopPopup = false}, 1500)
         },
         showTopSuccess(state, msg) {
             state.tipText = msg

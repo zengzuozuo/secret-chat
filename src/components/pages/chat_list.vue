@@ -16,7 +16,7 @@
                             
                         </div>
                         <p v-if="item.list.length > 0">{{item.list[item.list.length - 1].message}}</p>
-                        <p v-if="item.list.length <= 0">无</p>
+                        <p v-if="item.list.length <= 0">{{$t('message.chatlist8')}}</p>
                     </div>
                 </li>
             </ul>
@@ -53,11 +53,11 @@ export default {
         },
         getUserInfo() {
             if(this.to_user_id.trim() == "") {
-                this.$store.commit("showTopPopup","对方地址不能为空")
+                this.$store.commit("showTopPopup", this.$t('message.chatlist6'))
                 return;
             }
             if(this.to_user_id == localStorage.getItem("userid")) {
-                this.$store.commit("showTopPopup","无法向自己发送")
+                this.$store.commit("showTopPopup", this.$t('message.chatlist7'))
                 return;
             }
             this.$store.state.loading = true

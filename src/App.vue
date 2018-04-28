@@ -8,9 +8,9 @@
           <embed src='static/svg/loading.svg' type='image/svg+xml' pluginspage='http://www.adobe.com/svg/viewer/install/' />
       </div>
     </div>
-    <mu-dialog :open="$store.state.isShowAlert" title="提示">
+    <mu-dialog :open="$store.state.isShowAlert" :title="$t('message.login4')">
       {{$store.state.alertText}}
-      <mu-flat-button label="确定" slot="actions" primary @click.native="$store.state.isShowAlert = false"/>
+      <mu-flat-button :label="$t('message.chatlist3')" slot="actions" primary @click.native="$store.state.isShowAlert = false"/>
     </mu-dialog>
   </div>
 </template>
