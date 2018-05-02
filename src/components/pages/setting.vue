@@ -1,5 +1,6 @@
 <template>
     <div class="set-page">
+        <header>设置</header>
         <div class="main">
             <ul>
                 <li>
@@ -81,11 +82,25 @@ export default {
 .set-page {
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
+    background-color: #F5F5F5;
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 44px;
+        font-size: 18px;
+        background-color: #fff;
+    }
     .main {
-        margin: 0 10%;
+        margin: 50px 10px 0;
+        padding: 10px;
+        background-color: #fff;
         ul {
+            
             li {
-                margin-top: 30px;
+                margin-top: 10px;
                 h3 {
                     font-size: 18px;
                     font-weight: 400;

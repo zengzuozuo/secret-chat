@@ -63,8 +63,8 @@ export default {
     .footer-bar {
         .activeline {
             // display: none;
-            color: #7e57c2;
-            background-color: #7e57c2;
+            color: #317ae2;
+            background-color: #317ae2;
         }
         .mu-tabs {
             background-color: #fff;
@@ -73,7 +73,7 @@ export default {
                 color: #000;
             }
             .mu-tab-active {
-                color: #7e57c2;
+                color: #317ae2;
                 .iconfont {
                     font-size: 20px;
                 }

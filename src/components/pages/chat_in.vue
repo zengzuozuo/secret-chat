@@ -115,12 +115,14 @@ export default {
     display: flex;
     flex-direction: column;
     .header {
+        background-color: #317ae2;
         .iconfont {
             font-size: 30px;
         }
         div {
             padding: 0 20px;
         }
+
     }
     .main {
         flex: 1;
@@ -140,12 +142,13 @@ export default {
                 }
                 .iconfont {
                     font-size: 30px;
-                    color: #7e57c2;
+                    color: #5399ee;
                 }
                 p {
                     padding: 10px;
                     box-shadow: 0 0 10px #d5d5d5;
                     margin: 0 30px 0 10px;
+                    border-radius: 6px;
                 }
             }
         }
@@ -161,8 +164,8 @@ export default {
                 margin: 0 10px 0 0;
             }
             .iconfont {
-                font-size: 20px;
-                color: #7e57c2;
+                font-size: 24px;
+                color: #238fea;
             }
         }
     }

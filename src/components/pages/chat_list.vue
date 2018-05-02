@@ -1,14 +1,16 @@
 <template>
     <div class="chat-list-page">
+        <header>聊天</header>
         <div class="main">
             <div class="add-chat" @click="isShowAlert = true">
-                <i class="iconfont">&#xe60d;</i>
+                <img class="icon" src="static/images/add_icon.png" />
                 <div class="content">{{$t('message.chatlist1')}}</div>
                 <div style="display: none">{{changeM}}</div>
             </div>
             <ul>
                 <li v-for="item,index in chatListData" :key="index" @click="$router.push({path: 'chatin', query: {id: item.userid}})">
-                    <i class="iconfont">&#xe620;</i>
+                    <!-- <i class="iconfont">&#xe620;</i> -->
+                    <img src="static/images/chat_icon.png" class="icon" />
                     <div class="content">
                         <div>
                             <h3>{{item.userid}}</h3>
@@ -92,21 +94,35 @@ export default {
 
 <style lang="less">
 .chat-list-page {
-    overflow: hidden;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    background-color: #F5F5F5;
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 44px;
+        font-size: 18px;
+        background-color: #fff;
+    }
     .main {
-        height: 100%;
-        padding: 20px 10% 0;
-        box-sizing: border-box;
-        -webkit-overflow-scrolling: touch;
-        overflow-y: scroll;
+        padding: 50px 0 0;
+        
         .add-chat {
             display: flex;
             align-items: center;
-            // position: sticky;
+            padding: 10px 20px;
             top: 0;
             left: 0;
             background-color: #fff;
             border-bottom: 1px solid #d5d5d5;
+            .icon {
+                width: 40px;
+                height: 40px;
+            }
             .iconfont {
                 font-size: 40px;
             }
@@ -115,14 +131,22 @@ export default {
                 text-align: left;
                 padding: 0 10px;
                 font-size: 16px;
+                color: #317ae2;
             }
         }
         ul {
-            margin: 10px 0;
+            margin: 10px 10px;
             li {
                 display: flex;
                 align-items: center;
-                margin: 20px 0;
+                margin: 10px 0 0;
+                padding: 10px 10px;
+                background-color: #fff;
+                border-radius: 6px;
+                .icon {
+                    width: 40px;
+                    height: 40px;
+                }
                 .iconfont {
                     font-size: 40px;
                 }

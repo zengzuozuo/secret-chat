@@ -11,7 +11,7 @@ module.exports={
     registerText: '没有帐号？创建一个新的匿名帐号',
     safety: '安全',
     copy: '复制',
-    copyaddress: '复制地址',
+    copyaddress: '复制',
     copySuccess: '复制成功',
     Connectionclosed: '连接已关闭',
     login1: '请输入您的秘钥',

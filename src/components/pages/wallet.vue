@@ -1,28 +1,33 @@
 <template>
     <div class="wallet-page">
+        <header>个人</header>
         <div class="main">
-            <div class="menu">
-                <i class="iconfont">&#xe7b8;</i>
-                <div class="content">
-                    <!-- <label>您的地址</label> -->
-                    <p>{{userid}}</p>
+            <div class="menu-wrap">
+                <div class="menu">
+                    <img class="icon" src="static/images/qrcode_icon.png" />
+                    <div class="content">
+                        <p>{{userid}}</p>
+                    </div>
+                    <a href="javascript:;" :data-clipboard-text="userid" @click="copy" class="tag-read">{{$t('message.copyaddress')}}</a>
                 </div>
-                <mu-raised-button :label="$t('message.copyaddress')" :data-clipboard-text="userid" @click.native="copy" class="tag-read"/>
-            </div>
-            <p class="tip">{{$t('message.wallet1')}}</p>
-            <div class="menu" v-if="pageData">
-                <i class="iconfont">&#xe781;</i>
-                <div class="content">
-                    <label>{{$t('message.wdye')}}</label>
+                <p class="tip">{{$t('message.wallet1')}}</p>
+                <div class="menu bt" v-if="pageData">
+                    <img class="icon" src="static/images/wallet_icon.png" />
+                    <div class="content">
+                        <label>{{$t('message.wdye')}}</label>
+                    </div>
+                    <div class="balance"><span>{{pageData.balance}}</span>{{$t('message.wallet2')}}</div>
                 </div>
-                <div class="balance"><span>{{pageData.balance}}</span>{{$t('message.wallet2')}}</div>
             </div>
+            
             <ul class="combo-list" v-if="pageData">
                 <li v-for="item in pageData.result">
-                    <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}}</label>
-                    <div class="content">{{$store.state.langValue == "zh-CN" ? item.cn_memo : item.en_memo}}</div>
-                    <mu-raised-button :label="$t('message.wallet4')" v-if="item.amount == 0" @click.native="buy(item.pack_id)" />
-                    <mu-raised-button :label="item.amount + 'SAC'" v-if="item.amount != 0" @click.native="buy(item.pack_id)" />
+                    <div class="ctn-l">
+                        <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}} <img v-if="item.pack_id == 5" src="static/images/chaozhi_icon.png" /></label>
+                        <div class="content">{{$store.state.langValue == "zh-CN" ? item.cn_memo : item.en_memo}}</div>
+                    </div>
+                    <mu-raised-button :label="$t('message.wallet4')" v-if="item.amount == 0" @click.native="buy(item.pack_id)" primary />
+                    <mu-raised-button :label="item.amount + 'SAC'" v-if="item.amount != 0" @click.native="buy(item.pack_id)" primary />
                 </li>
             </ul>
             <div class="flex-wrap">
@@ -113,58 +118,85 @@ export default {
 .wallet-page {
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
+    background-color: #F5F5F5;
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        line-height: 44px;
+        font-size: 18px;
+        background-color: #fff;
+    }
     .main {
-        margin: 0 10%;
-        .menu {
-            display: flex;
-            margin: 20px 0 0;
-            align-items: center;
-            .iconfont {
-                font-size: 40px;
+        padding-top: 50px;
+        .menu-wrap {
+            background-color: #fff;
+            overflow: hidden;
+            a {
+                color: #317ae2;
             }
-            .content {
-                flex: 1;
-                align-self: center;
-                text-align: left;
-                padding: 0 10px;
-                font-size: 16px;
-                overflow: hidden;
-                p {
-                    white-space: wrap;
+            .menu {
+                display: flex;
+                padding: 12px 20px;            
+                align-items: center;
+                background-color: #fff;
+                &.bt {
+                    border-top: 1px solid #DCDCDC;
+                }
+                .icon {
+                    width: 30px;
+                }
+                .iconfont {
+                    font-size: 40px;
+                }
+                .content {
+                    flex: 1;
+                    align-self: center;
+                    text-align: left;
+                    padding: 0 10px;
+                    font-size: 16px;
                     overflow: hidden;
-                    word-wrap:break-word;
-                    color: #7e57c2;
+                    p {
+                        white-space: wrap;
+                        overflow: hidden;
+                        word-wrap:break-word;
+                        color: #317ae2;
+                    }
+                }
+                
+                .tag-read {
+                    min-width: auto;
+                }
+                .balance {
+                    font-size: 16px;
+                    span {
+                        display: inline-block;
+                        padding: 0 5px;
+                        font-size: 25px;
+                        font-weight: bold;
+                        color: #317ae2;
+                    }
                 }
             }
-            
-            .tag-read {
-                min-width: auto;
-            }
-            .balance {
-                font-size: 16px;
-                span {
-                    display: inline-block;
-                    padding: 0 5px;
-                    font-size: 30px;
-                    font-weight: bold;
-                    color: #7e57c2;
-                }
+            .tip {
+                margin: 10px 0;
+                padding: 0 20px;
+                font-size: 12px;
+                color: #999;
             }
         }
-        .tip {
-            margin: 10px 0;
-            font-size: 12px;
-            color: #999;
-        }
+        
         .flex-wrap {
             display: flex;
             align-items: center;
             .tip {
                 flex: 1;
                 border-bottom: 1px solid #d5d5d5;
-                margin: 20px 0;
+                margin: 10px 0;
                 text-align: left;
-                padding: 0 0 5px 0;
+                padding: 0 20px 5px;
                 font-size: 12px;
                 &.no-border {
                     border: none;
@@ -176,17 +208,31 @@ export default {
         }
         
         .combo-list {
+            padding: 10px 5px;
+            overflow: hidden;
             li {
                 display: flex;
                 align-items: center;
-                margin: 10px 0 30px;
+                background: url('../../../static/images/bg1.png') no-repeat center;
+                background-size: 100% 100%;
+                overflow: hidden;
+                border-radius: 6px;
+                padding: 12px 15px;
+                margin: 10px 0 0;
+                .ctn-l {
+                    flex: 1;
+                    .content {
+                        padding: 5px 0;
+                    }
+                }
                 label {
                     font-weight: 700;
+                    img {
+                        height: 16px;
+                        vertical-align: middle;
+                    }
                 }
-                .content {
-                    flex: 1;
-                    padding: 0 10px;
-                }
+                
             }
         }
         .tipbox {

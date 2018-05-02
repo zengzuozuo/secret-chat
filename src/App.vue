@@ -37,6 +37,17 @@ li {
   list-style: none;
   text-align: left;
 }
+
+.mu-raised-button-primary {
+    background-color: #317ae2 !important;
+}
+.mu-flat-button-primary {
+  color: #317ae2 !important;
+}
+.mu-text-field.focus-state {
+  color: #317ae2 !important;
+}
+
 .popup-top {
     width: 100%;
     height: 48px;
@@ -59,7 +70,7 @@ li {
     justify-content: center;
     max-width: 375px;
     box-shadow: 0 0 10px #d5d5d5;
-    background-color: #7e57c2 !important;
+    background-color: #317ae2 !important;
     color: #fff;
     border-radius: 2px;
 }
