@@ -105,7 +105,7 @@ export default {
                             this.getData()
                         }else {
                             localStorage.setItem("LANGUAGE", this.$store.state.langValue)
-                            window.location.href = res.result.payUrl
+                            window.location.href = res.result.payUrl + "?langId=" + this.$store.state.langValue
                         }
                         
                     }
