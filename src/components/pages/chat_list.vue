@@ -1,6 +1,6 @@
 <template>
     <div class="chat-list-page">
-        <header>聊天</header>
+        <header>{{$t("message.chat")}}</header>
         <div class="main">
             <div class="add-chat" @click="isShowAlert = true">
                 <img class="icon" src="static/images/add_icon.png" />

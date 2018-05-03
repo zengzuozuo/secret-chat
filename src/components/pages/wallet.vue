@@ -1,6 +1,6 @@
 <template>
     <div class="wallet-page">
-        <header>个人</header>
+        <header>{{$t('message.my')}}</header>
         <div class="main">
             <div class="menu-wrap">
                 <div class="menu">
@@ -23,7 +23,10 @@
             <ul class="combo-list" v-if="pageData">
                 <li v-for="item in pageData.result">
                     <div class="ctn-l">
-                        <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}} <img v-if="item.pack_id == 5" src="static/images/chaozhi_icon.png" /></label>
+                        <label>{{$store.state.langValue == "zh-CN" ? item.cn_title : item.en_title}} 
+                            <img v-if="item.pack_id == 5 && $store.state.langValue == 'zh-CN'" src="static/images/chaozhi_icon.png" />
+                            <img v-if="item.pack_id == 5 && $store.state.langValue == 'en-US'" src="static/images/chaozhi_en_icon.png" />
+                        </label>
                         <div class="content">{{$store.state.langValue == "zh-CN" ? item.cn_memo : item.en_memo}}</div>
                     </div>
                     <mu-raised-button :label="$t('message.wallet4')" v-if="item.amount == 0" @click.native="buy(item.pack_id)" primary />

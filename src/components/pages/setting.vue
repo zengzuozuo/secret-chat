@@ -1,6 +1,6 @@
 <template>
     <div class="set-page">
-        <header>设置</header>
+        <header>{{$t("message.set")}}</header>
         <div class="main">
             <ul>
                 <li>
