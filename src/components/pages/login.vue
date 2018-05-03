@@ -80,9 +80,10 @@ export default {
         },
         // 切换语言
         handleChange (langValue) {
-	      this.$store.state.langValue = langValue
-          this.$i18n.locale = langValue
+	        this.$store.state.langValue = langValue
+            this.$i18n.locale = langValue
             sessionStorage.setItem("LANG", langValue)
+            localStorage.setItem("LANGUAGE", langValue)
         },
         // 重新生成
         rebuild() {
