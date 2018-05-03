@@ -100,7 +100,6 @@ export default {
                 callback: (res) => {
                     if(res.code == 200 && res.method == "buyTariffPackages") {
                         if(res.serial != this.timestamp) return;
-                        console.log(res)
                         if(res.result == "OK") {
                             this.$store.commit("showAlert", $t('message.wallet5'))
                             this.getData()
