@@ -95,7 +95,7 @@ export default {
             this.$store.commit("WSsend", {
                 data: {
                     method: "buyTariffPackages",
-                    params: [this.userid, id, this.timestamp]
+                    params: [this.userid, id, this.$store.state.langValue, this.timestamp]
                 },
                 callback: (res) => {
                     if(res.code == 200 && res.method == "buyTariffPackages") {
