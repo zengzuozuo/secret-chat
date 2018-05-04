@@ -40,7 +40,7 @@ module.exports={
     register1: 'Your secret key has been generated',
     register2: 'important note',
     register3: 'This key will be used to encrypt and decrypt your chat information. Be sure to save your secret key.If lost, no way to recover it.Please do not disclose to third parties, otherwise your information may be leaked, we are not responsible!',
-    register6: "I've saved it. Go to chat",
+    register6: "Saved Go Chat",
 
     //chatlist
     chatlist1: 'Start New Chat',
