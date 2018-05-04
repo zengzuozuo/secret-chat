@@ -133,7 +133,7 @@ export default new Vuex.Store({
                         break;
                         case 'login':
                             localStorage.setItem("pub_key", data.result[0].pub_key)
-                            localStorage.setItem("sec_key", data.result[0].sec_key)
+//                          localStorage.setItem("sec_key", data.result[0].sec_key)
                             localStorage.setItem("userid", data.result[0].user_id)
                             sessionStorage.setItem("userid", data.result[0].user_id)
                             localStorage.setItem("key_store", JSON.stringify({userid: data.result[0].user_id, sec_key: data.result[0].sec_key}))

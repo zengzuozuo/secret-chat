@@ -70,7 +70,7 @@ export default {
                     callback: (res) => {
                         if(res.code == 200 && res.method == "login") {
                             localStorage.setItem("pub_key", res.result[0].pub_key)
-                            localStorage.setItem("sec_key", res.result[0].sec_key)
+//                          localStorage.setItem("sec_key", res.result[0].sec_key)
                             localStorage.setItem('userid', this.urlQuery.userId)
                             sessionStorage.setItem('userid', this.urlQuery.userId)
                             this.$router.replace("chatlist")
