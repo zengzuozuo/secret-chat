@@ -115,11 +115,18 @@ export default new Vuex.Store({
                             })
                         break; 
                         case 'logout':
-                            localStorage.removeItem("pub_key")
-                            localStorage.removeItem("sec_key")
-                            localStorage.removeItem("userid")
+                            localStorage.removeItem("key_store")
+					        localStorage.removeItem("pub_key")
+					        localStorage.removeItem("sec_key")
+					        localStorage.removeItem("userid")
+					        localStorage.removeItem("CHATDATA")
                             sessionStorage.removeItem("userid")
-                            router.replace('login')
+                            
+                            try{
+                            	window.app.closeWebView();  //关闭webview
+                            }catch(e){
+                            	router.replace('login')
+                            }
                         break;
                         case 'register':
                             state.registerUserid = data.result

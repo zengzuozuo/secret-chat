@@ -39,6 +39,11 @@ export default {
     },
     mounted() {
         this.urlQuery = this.$route.query
+        localStorage.removeItem("key_store")
+        localStorage.removeItem("pub_key")
+        localStorage.removeItem("sec_key")
+        localStorage.removeItem("userid")
+        localStorage.removeItem("CHATDATA")
     },
     methods: {
         login() {

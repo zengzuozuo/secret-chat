@@ -38,6 +38,7 @@
                 <!-- <i class="iconfont" @click="$router.push('specification')">&#xe600;</i> -->
             </div>
             <mu-toast v-if="toast" :message="toastMessage" class="tipbox" />
+            
         </div>
     </div>
 </template>
@@ -59,6 +60,8 @@ export default {
         this.getData();
         this.$store.state.langValue = localStorage.getItem("LANGUAGE") || "zh-CN"
         this.$i18n.locale = localStorage.getItem("LANGUAGE") || "zh-CN"
+
+        // console.log(document.getElementsByTagName("title"))
     },
     methods: {
         copy() {
@@ -76,7 +79,7 @@ export default {
         },
         getData() {
             this.timestamp = new Date().getTime()
-            console.log([this.userid, this.timestamp])
+
             this.$store.commit("WSsend", {
                 data: {
                     method: "getTariffPackages",
@@ -90,6 +93,7 @@ export default {
                 }
             })
         },
+        //购买
         buy(id) {
             this.timestamp = new Date().getTime()
             this.$store.commit("WSsend", {
@@ -106,6 +110,7 @@ export default {
                         }else {
                             localStorage.setItem("LANGUAGE", this.$store.state.langValue)
                             window.location.href = res.result.payUrl + "?langId=" + this.$store.state.langValue
+
                         }
                         
                     }
@@ -240,6 +245,13 @@ export default {
         .tipbox {
             text-align: center;
         }
+    }
+    iframe {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
     }
 }
 </style>
