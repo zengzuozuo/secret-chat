@@ -27,7 +27,7 @@ const i18n = new VueI18n({
 })
 
 //连接服务器
-store.commit("WSconnect","ws://13.231.69.243:3000/")
+store.commit("WSconnect","ws://secretchat.org:3000/")
 
 Vue.prototype.$getStrLeng = function(str){ 
   var realLength = 0; 

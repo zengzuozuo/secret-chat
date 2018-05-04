@@ -42,51 +42,56 @@ export default {
     },
     methods: {
         sendMessage() {
-            if(this.messageText.trim() == "") {
-                this.$store.commit("showTopPopup", this.$t('message.chatin3'))
-                return;
-            }
-            if(this.$getStrLeng(this.messageText) > 255) {
-                this.$store.commit("showTopPopup", this.$t('message.chatin4'))
-                return
-            }
-            const to_user_id = this.$route.query.id
-            let publicKey = this.$store.state.chatUserList[to_user_id].pk
+        	try{
+        		if(this.messageText.trim() == "") {
+	                this.$store.commit("showTopPopup", this.$t('message.chatin3'))
+	                return;
+	            }
+	            if(this.$getStrLeng(this.messageText) > 255) {
+	                this.$store.commit("showTopPopup", this.$t('message.chatin4'))
+	                return
+	            }
+	            const to_user_id = this.$route.query.id
+	            let publicKey = this.$store.state.chatUserList[to_user_id].pk
+	            
+	
+	            let nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
+	            let B64nonce = nacl.util.encodeBase64(nonce)
+	
+	            let secretKey = localStorage.getItem("sec_key")
+	            let miwen = nacl.box(nacl.util.decodeUTF8(this.messageText), nonce, nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
+	
+	            const userid = localStorage.getItem("userid")
+	
+	
+	            this.timestamp = new Date().getTime()  //产生随机数
+	            this.$store.commit("WSsend", {
+	                data: {
+	                    method: "postMessage",
+	                    params: [userid, to_user_id, 1, nacl.util.encodeBase64(miwen), B64nonce, this.timestamp]
+	                },
+	                callback: (res) => {
+	                    if(res.code === 200 && res.method == "postMessage") {
+	                        if(!res.serial) return;
+	                        if(res.serial != this.timestamp) return;
+	                        this.timestamp = new Date().getTime()
+	                        console.log("chatin")
+	                        var date = new Date(); //获取到当前的系统时间
+	                        
+	                        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+	                        this.$store.commit("addChatUser", {
+	                            userid: to_user_id,
+	                            list: [{message: this.messageText, self: true, time: time}],
+	                            pk: publicKey
+	                        })
+	                        this.messageText = ""
+	                    }
+	                }
+	            })
+        	}catch(e){
+        		this.$store.commit("showTopPopup", this.$t('message.chatin5'))
+        	}
             
-
-            let nonce = nacl.randomBytes(nacl.secretbox.nonceLength)
-            let B64nonce = nacl.util.encodeBase64(nonce)
-
-            let secretKey = localStorage.getItem("sec_key")
-            let miwen = nacl.box(nacl.util.decodeUTF8(this.messageText), nonce, nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
-
-            const userid = localStorage.getItem("userid")
-
-
-            this.timestamp = new Date().getTime()  //产生随机数
-            this.$store.commit("WSsend", {
-                data: {
-                    method: "postMessage",
-                    params: [userid, to_user_id, 1, nacl.util.encodeBase64(miwen), B64nonce, this.timestamp]
-                },
-                callback: (res) => {
-                    if(res.code === 200 && res.method == "postMessage") {
-                        if(!res.serial) return;
-                        if(res.serial != this.timestamp) return;
-                        this.timestamp = new Date().getTime()
-                        console.log("chatin")
-                        var date = new Date(); //获取到当前的系统时间
-                        
-                        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-                        this.$store.commit("addChatUser", {
-                            userid: to_user_id,
-                            list: [{message: this.messageText, self: true, time: time}],
-                            pk: publicKey
-                        })
-                        this.messageText = ""
-                    }
-                }
-            })
             
         },
         scrollBottom() {

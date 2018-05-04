@@ -21,6 +21,7 @@ module.exports={
     login5: '重新生成后将无法解密在此之前的信息，确定继续？',
     login6: '登录环境异常',
     login7: '您输入的密钥不能为空',
+    login8: '请确保密钥正确，否则将导致发送失败！',
 
     
     //index
@@ -57,6 +58,7 @@ module.exports={
     chatin2: '请输入您的消息',
     chatin3: '发送内容不能为空',
     chatin4: '字符长度超出限制',
+    chatin5: '发送失败',
 
     //tip
     dlzhbnwk: '登录账号不能为空',

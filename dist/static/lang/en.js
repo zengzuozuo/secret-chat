@@ -21,6 +21,7 @@ module.exports={
     login5: 'Will it not be able to decrypt the previous information before it is regenerated?',
     login6: 'Login environment exception',
     login7: 'The secret key you entered cannot be empty',
+    login8: 'Please make sure the key is correct, otherwise it will cause the sending to fail!',
 
     //index
     my: 'My',
@@ -56,6 +57,7 @@ module.exports={
     chatin2: 'Type your message',
     chatin3: 'The send content cannot be empty',
     chatin4: 'The character length exceeds the limit',
+    chatin5: 'sending failure',
 
     //tip
     dlzhbnwk: 'The login account cannot be empty',

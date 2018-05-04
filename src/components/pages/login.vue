@@ -9,8 +9,9 @@
 				    <mu-menu-item value="en-US" :title="$t('message.English')"/>
 				</mu-dropDown-menu>
             </div>
-            <mu-dialog :open="isShowAlert" :title="$t('message.login1')">
+            <mu-dialog :open="isShowAlert" class="secretkey-input" :title="$t('message.login1')">
                 <mu-text-field v-model="secretKey" :hintText="$t('message.login2')" style="width: 100%" />
+                <p class="tip" style="color: #c33; font-size: 12px;">{{$t('message.login8')}}</p>
                 <mu-flat-button slot="actions" @click="rebuild" primary :label="$t('message.login3')"/>
                 <mu-flat-button slot="actions" primary @click="saveKey" :label="$t('message.chatlist3')"/>
             </mu-dialog>

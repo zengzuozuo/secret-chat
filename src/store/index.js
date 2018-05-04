@@ -153,16 +153,20 @@ export default new Vuex.Store({
                     }
                     state.loading = true
                     // 断线重连
-                    this.commit("WSconnect", "ws://13.231.69.243:3000/")
+                    this.commit("WSconnect", "ws://secretchat.org:3000/")
                 }
             }else {
                 alert("当前环境暂不支持聊天")
             }
             //解密文本
             function decodeMessage(message, nonce, publicKey) {
-                let secretKey = localStorage.getItem("sec_key")
-                let mgwen = nacl.box.open(nacl.util.decodeBase64(message), nacl.util.decodeBase64(nonce), nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
-                return nacl.util.encodeUTF8(mgwen)
+            	try{
+            		let secretKey = localStorage.getItem("sec_key")
+	                let mgwen = nacl.box.open(nacl.util.decodeBase64(message), nacl.util.decodeBase64(nonce), nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
+	                return nacl.util.encodeUTF8(mgwen)
+            	}catch(e){
+            		
+            	}
             }
         },
         WSsend(state, data) {
