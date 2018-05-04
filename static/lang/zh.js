@@ -14,13 +14,13 @@ module.exports={
     copyaddress: '复制',
     copySuccess: '复制成功',
     Connectionclosed: '连接已关闭',
-    login1: '请输入您的秘钥',
+    login1: '请输入您的密钥',
     login2: '请输入',
-    login3: '忘记秘钥',
+    login3: '忘记密钥',
     login4: '提示',
     login5: '重新生成后将无法解密在此之前的信息，确定继续？',
     login6: '登录环境异常',
-    login7: '您输入的秘钥不能为空',
+    login7: '您输入的密钥不能为空',
 
     
     //index
@@ -37,9 +37,9 @@ module.exports={
     wallet5: '购买成功',
 
     //register
-    register1: '您的秘钥已经生成',
+    register1: '您的密钥已经生成',
     register2: '重要提示',
-    register3: '此密钥将用户加解密您的聊天信息。请务必保存您的秘钥.如果丢失, 将无法找回 ！请不要泄露给第三方，否则您的信息可能被泄露,我们概不负责！',
+    register3: '此密钥将用于加解密您的聊天信息。请务必保存您的密钥.如果丢失， 将无法找回！请不要泄露给第三方，否则您的信息可能被泄露，我们概不负责！',
     register6: '我已保存，去聊天!',
 
     //chatlist
