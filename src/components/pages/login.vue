@@ -20,6 +20,9 @@
                 <mu-flat-button slot="actions" @click="rebuildAlert = false" primary :label="$t('message.chatlist4')"/>
                 <mu-flat-button slot="actions" primary @click="$router.replace({path: 'register', query: {userId: urlQuery.userId, userStatus: urlQuery.userStatus}})" :label="$t('message.chatlist3')"/>
             </mu-dialog>
+            <div class="return-btn" @click="goBack">
+            	<i class="iconfont">&#xe641;</i>
+            </div>
         </div>
         <footer>
             <mu-raised-button :label="$t('message.login')" @click.native="auth" primary class="login-btn" />
@@ -45,6 +48,7 @@ export default {
         localStorage.removeItem("sec_key")
         localStorage.removeItem("userid")
         localStorage.removeItem("CHATDATA")
+
     },
     methods: {
         login() {
@@ -125,6 +129,14 @@ export default {
             localStorage.setItem("sec_key", this.secretKey)
             localStorage.setItem("key_store", JSON.stringify({userid: this.urlQuery.userId, sec_key: this.secretKey}))
             this.login()
+        },
+        //返回 .. 关闭webview
+        goBack() {
+        	try{
+        		window.app.closeWebView()
+        	}catch(e){
+        		window.history.go(-1)
+        	}
         }
     },
     computed: {
@@ -175,6 +187,15 @@ export default {
         	.mu-dropDown-menu-icon {
         		color: #fff;
         	}
+        }
+        .return-btn {
+        	position: absolute;
+        	top: 12px;
+        	left: 12px;
+        	.iconfont {
+        		font-size: 20px;
+        	}
+        	
         }
     }
     footer {
