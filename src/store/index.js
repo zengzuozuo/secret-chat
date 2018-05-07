@@ -86,21 +86,8 @@ export default new Vuex.Store({
                     switch(data.method) {
                         case 'pushMessage':
                             let mingwen = decodeMessage(data.result.msg_data, data.result.msg_nonce, data.result.msg_pubkey)
-                            var timeStr = ""
-                            var nowTime = new Date()
-                            var time = new Date(data.result.msg_time * 1000)
-                            let Y = time.getFullYear()
-                            let M = (time.getMonth()+1 < 10 ? '0'+(time.getMonth()+1) : time.getMonth()+1)
-                            let D = time.getDate()
-                            let h = time.getHours()
-                            let m = time.getMinutes() <= 9 ? ("0" + time.getMinutes()) : time.getMinutes()
-                            let s = time.getSeconds() <= 9 ? ("0" + time.getSeconds()) : time.getSeconds()
-                            console.log(time)
-                            if(nowTime.getDate() == D) {
-                                timeStr = h + ":" + m + ":" + s
-                            }else {
-                                timeStr =M + "/" + D + " " + h + ":" + m + ":" + s
-                            }
+                            if(!mingwen) return;
+                            var timeStr = createTime(data.result.msg_time)
                             this.commit("addChatUser", {
                                 userid: data.result.from_user_id,
                                 list: [
@@ -165,9 +152,26 @@ export default new Vuex.Store({
 	                let mgwen = nacl.box.open(nacl.util.decodeBase64(message), nacl.util.decodeBase64(nonce), nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
 	                return nacl.util.encodeUTF8(mgwen)
             	}catch(e){
-            		
+            		return false
             	}
             }
+            //生成时间
+			function createTime(times) {
+                let nowTime = new Date()
+                let time = new Date(times * 1000)
+                let Y = time.getFullYear()
+                let M = (time.getMonth()+1 < 10 ? '0'+(time.getMonth()+1) : time.getMonth()+1)
+                let D = time.getDate()
+                let h = time.getHours()
+                let m = time.getMinutes() <= 9 ? ("0" + time.getMinutes()) : time.getMinutes()
+                let s = time.getSeconds() <= 9 ? ("0" + time.getSeconds()) : time.getSeconds()
+
+                if(nowTime.getDate() == D) {
+                    return (h + ":" + m + ":" + s)
+                }else {
+                    return (M + "/" + D + " " + h + ":" + m + ":" + s)
+                }
+			}
         },
         WSsend(state, data) {
             switch(state.ws.readyState) {
@@ -194,10 +198,18 @@ export default new Vuex.Store({
                     state.ws.addEventListener("message", aa)
                     break;
                 case 2:
-                    this.commit("showTopPopup", "连接尚未连接正在进行关闭建立")
+                    if(state.langValue == "zh-CN") {
+                        this.commit("showTopPopup", "连接尚未连接正在进行关闭建立")
+                    }else {
+                        this.commit("showTopPopup", "Connection closed")
+                    }
                     break;
                 case 3:
-                    this.commit("showTopPopup", "连接已经关闭或者连接不能打开")
+                	if(state.langValue == "zh-CN") {
+                        this.commit("showTopPopup", "连接已经关闭或者连接不能打开")
+                    }else {
+                        this.commit("showTopPopup", "Connection closed")
+                    }
                     break;
                 default:
                     break;

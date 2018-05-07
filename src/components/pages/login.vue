@@ -48,7 +48,9 @@ export default {
         localStorage.removeItem("sec_key")
         localStorage.removeItem("userid")
         localStorage.removeItem("CHATDATA")
-
+        
+		this.$store.state.langValue = localStorage.getItem("LANGUAGE") || "zh-CN"
+        this.$i18n.locale = localStorage.getItem("LANGUAGE") || "zh-CN"
     },
     methods: {
         login() {
@@ -86,7 +88,6 @@ export default {
                 // 弹出秘钥输入框
                 this.isShowAlert = true
             }
-            
         },
         // 切换语言
         handleChange (langValue) {
