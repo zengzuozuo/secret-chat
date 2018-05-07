@@ -49,7 +49,7 @@ export default {
         localStorage.removeItem("sec_key")
         localStorage.removeItem("userid")
         localStorage.removeItem("CHATDATA")
-        
+        this.$store.state.chatUserList = JSON.parse(localStorage.getItem("CHATDATA")) || {}
 		this.$store.state.langValue = localStorage.getItem("LANGUAGE") || "zh-CN"
         this.$i18n.locale = localStorage.getItem("LANGUAGE") || "zh-CN"
     },
