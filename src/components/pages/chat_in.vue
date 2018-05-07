@@ -17,10 +17,11 @@
         </div>
         <footer>
             <div class="input-wrap">
-                <mu-text-field :hintText="$t('message.chatin2')" v-model="messageText" multiLine :rows="1" :rowsMax="6"/>
+                <mu-text-field :hintText="$t('message.chatin2')" :errorText="inputErrorText" v-model="messageText" multiLine :rows="1" :rowsMax="6"/>
                 <i class="iconfont" @click="sendMessage" slot="left">&#xe60c;</i>
             </div>
             <div style="display: none">{{changeM}}</div>
+            <!--<p class="large-tip" v-show="isShowlargeTip">文字输入已达上限</p>-->
         </footer>
     </div>
 </template>
@@ -30,7 +31,9 @@ export default {
     data() {
         return {
             messageText: "",
-            timestamp: ""
+            timestamp: "",
+            isShowlargeTip: false,
+            inputErrorText: ""
         }
     },
     updated() {
@@ -99,13 +102,22 @@ export default {
             this.$refs.main.scrollTop = this.$refs.main.scrollHeight
         }
     },
+    watch: {
+    	messageText(newValue, oldValue) {
+    		if(this.$getStrLeng(newValue) > 384) {
+    			this.inputErrorText = this.$t('message.chatin4')
+    		}else {
+				this.inputErrorText = ""    			
+    		}
+    	}
+    },
     computed:{
         chatListData(){
             return this.$store.state.chatUserList
         },
         changeM() {
             return this.$store.state.changeM
-        } 
+        }
     }
 }
 </script>
@@ -159,6 +171,7 @@ export default {
         }
     }
     footer {
+    	position: relative;
         padding: 10px 20px;
         border-top: 2px solid #d5d5d5;
         .input-wrap {
@@ -172,6 +185,13 @@ export default {
                 font-size: 24px;
                 color: #238fea;
             }
+        }
+        .large-tip {
+        	position: absolute;
+        	bottom: 0;
+        	left: 20px;
+        	font-size: 12px;
+        	color: #c33;
         }
     }
 }
