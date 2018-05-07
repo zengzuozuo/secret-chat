@@ -14,6 +14,7 @@
                 <p class="tip" style="color: #c33; font-size: 12px;">{{$t('message.login8')}}</p>
                 <mu-flat-button slot="actions" @click="rebuild" primary :label="$t('message.login3')"/>
                 <mu-flat-button slot="actions" primary @click="saveKey" :label="$t('message.chatlist3')"/>
+                <a href="javascript:;" class="login-popup-close" @click="isShowAlert = false"><i class="iconfont">&#xe647;</i></a>
             </mu-dialog>
             <mu-dialog :open="rebuildAlert" :title="$t('message.login4')">
                 {{$t('message.login5')}}
@@ -233,5 +234,17 @@ export default {
             color: #cccdce;
         }
     }
+}
+.mu-dialog {
+	position: relative;
+}
+.login-popup-close {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	.iconfont {
+		font-size: 16px;
+		color: #bfb4b4;
+	}
 }
 </style>

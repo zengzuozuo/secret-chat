@@ -17,8 +17,8 @@
                             <span v-if="item.list.length > 0">{{item.list[item.list.length - 1].time}}</span>
                             
                         </div>
-                        <p v-if="item.list.length > 0">{{item.list[item.list.length - 1].message}}</p>
-                        <p v-if="item.list.length <= 0">{{$t('message.chatlist8')}}</p>
+                        <p v-if="item.list.length > 0" style="-webkit-box-orient: vertical;">{{item.list[item.list.length - 1].message}}</p>
+                        <p v-if="item.list.length <= 0" style="-webkit-box-orient: vertical;">{{$t('message.chatlist8')}}</p>
                     </div>
                 </li>
             </ul>
@@ -176,7 +176,7 @@ export default {
                     p {
                         font-size: 14px;
                         display: -webkit-box;
-                        -webkit-box-orient: vertical;
+                        -webkit-box-orient: vertical !important;
                         -webkit-line-clamp: 2;
                         overflow: hidden;
                     }

@@ -120,6 +120,9 @@ export default {
                         .mu-dropDown-menu-icon {
                             right: 0;
                         }
+                        .mu-dropDown-menu-text {
+                        	padding-left: 0;
+                        }
                     }
                 }
             }

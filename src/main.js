@@ -10,8 +10,13 @@ import VueSocketio from 'vue-socket.io'
 import VueI18n from 'vue-i18n'
 import LangEn from '../static/lang/en'
 import LangZh from '../static/lang/zh'
+import FastClick from 'fastclick'
 
-
+if ('addEventListener' in document) {  // 解决移动端300毫秒延迟
+	document.addEventListener('DOMContentLoaded', function () {
+		FastClick.attach(document.body)
+	}, false)
+}
 
 
 Vue.use(MuseUi)
