@@ -152,7 +152,11 @@ export default new Vuex.Store({
 	                let mgwen = nacl.box.open(nacl.util.decodeBase64(message), nacl.util.decodeBase64(nonce), nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
 	                return nacl.util.encodeUTF8(mgwen)
             	}catch(e){
-            		return false
+            		if(state.langValue == "zh-CN") {
+                        return "***无效密钥***"
+                    }else {
+                        return "***Invalid key***"
+                    }
             	}
             }
             //生成时间

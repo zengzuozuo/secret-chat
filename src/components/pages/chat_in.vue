@@ -63,7 +63,7 @@ export default {
 	
 	            let secretKey = localStorage.getItem("sec_key")
 	            let miwen = nacl.box(nacl.util.decodeUTF8(this.messageText), nonce, nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
-	
+				console.log(miwen)
 	            const userid = localStorage.getItem("userid")
 	
 	
