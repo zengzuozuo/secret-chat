@@ -47,7 +47,7 @@ export default {
 	                this.$store.commit("showTopPopup", this.$t('message.chatin3'))
 	                return;
 	            }
-	            if(this.$getStrLeng(this.messageText) > 255) {
+	            if(this.$getStrLeng(this.messageText) > 384) {
 	                this.$store.commit("showTopPopup", this.$t('message.chatin4'))
 	                return
 	            }
