@@ -80,8 +80,9 @@ export default {
 	                        this.timestamp = new Date().getTime()
 	                        console.log("chatin")
 	                        var date = new Date(); //获取到当前的系统时间
-	                        
-	                        var time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+	                        var m = date.getMinutes() <= 9 ? ("0" + date.getMinutes()) : date.getMinutes()
+	                        var s = date.getSeconds() <= 9 ? ("0" + date.getSeconds()) : date.getSeconds()
+	                        var time = (date.getHours() <= 9 ? ("0" + data.getHours()) : data.getHours()) + ":" + m + ":" + s
 	                        this.$store.commit("addChatUser", {
 	                            userid: to_user_id,
 	                            list: [{message: this.messageText, self: true, time: time}],
