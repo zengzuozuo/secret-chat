@@ -133,7 +133,7 @@ export default {
     height: 100%;
     overflow: hidden;
     .header {
-    	position: fixed;
+    	position: absolute;
     	top: 0;
     	left: 0;
     	width: 100%;
@@ -180,7 +180,7 @@ export default {
         }
     }
     footer {
-    	position: fixed;
+    	position: absolute;
     	bottom: 0;
     	left: 0;
     	width: 100%;
