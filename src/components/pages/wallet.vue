@@ -103,7 +103,7 @@ export default {
                     if(res.code == 200 && res.method == "buyTariffPackages") {
                         if(res.serial != this.timestamp) return;
                         if(res.pack_id === 1) {
-                            this.$store.commit("showAlert", $t('message.wallet5'))
+                            this.$store.commit("showAlert", this.$t('message.wallet5'))
                             this.getData()
                         }else {
                         	if(!res.result.payUrl) return;
