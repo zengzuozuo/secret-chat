@@ -102,15 +102,14 @@ export default {
                 callback: (res) => {
                     if(res.code == 200 && res.method == "buyTariffPackages") {
                         if(res.serial != this.timestamp) return;
-                        if(res.result == "OK") {
+                        if(res.pack_id === "1") {
                             this.$store.commit("showAlert", $t('message.wallet5'))
                             this.getData()
                         }else {
+                        	if(!res.result.payUrl) return;
                             localStorage.setItem("LANGUAGE", this.$store.state.langValue)
                             window.location.href = res.result.payUrl + "?langId=" + this.$store.state.langValue
-
                         }
-                        
                     }
                 }
             })
