@@ -108,7 +108,7 @@ export default {
                         }else {
                         	if(!res.result.payUrl) return;
                             localStorage.setItem("LANGUAGE", this.$store.state.langValue)
-                            window.location.href = res.result.payUrl + "?langId=" + this.$store.state.langValue
+                            window.location.href = res.result.payUrl + "?langId=" + this.$store.state.langValue + "&pagebackurl=" + window.location.href
                         }
                     }
                 }
