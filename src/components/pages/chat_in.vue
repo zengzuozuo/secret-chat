@@ -129,12 +129,11 @@ export default {
     /*position: fixed;
     top: 0;
     left: 0;*/
-   	position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
     .header {
-    	position: absolute;
+    	position: fixed;
     	top: 0;
     	left: 0;
     	width: 100%;
@@ -181,12 +180,13 @@ export default {
         }
     }
     footer {
-    	position: absolute;
+    	position: fixed;
     	bottom: 0;
     	left: 0;
     	width: 100%;
         padding: 10px 20px;
         border-top: 2px solid #d5d5d5;
+        background-color: #fff;
         .input-wrap {
             display: flex;
             align-items: center;
