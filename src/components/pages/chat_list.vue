@@ -179,6 +179,7 @@ export default {
                         -webkit-box-orient: vertical !important;
                         -webkit-line-clamp: 2;
                         overflow: hidden;
+                        word-wrap: break-word;
                     }
                 } 
             }

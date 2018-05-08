@@ -15,7 +15,7 @@
                 </li>
             </ul>
         </div>
-        <footer>
+        <footer ref="footer">
             <div class="input-wrap">
                 <mu-text-field :hintText="$t('message.chatin2')" :errorText="inputErrorText" v-model="messageText" multiLine :rows="1" :rowsMax="6"/>
                 <i class="iconfont" @click="sendMessage" slot="left">&#xe60c;</i>
@@ -109,6 +109,8 @@ export default {
     		}else {
 				this.inputErrorText = ""    			
     		}
+    		console.log(this.$refs.footer.offsetHeight)
+    		this.$refs.main.style = "padding-bottom:" + this.$refs.footer.offsetHeight + "px"
     	}
     },
     computed:{
@@ -124,14 +126,18 @@ export default {
 
 <style scoped lang="less">
 .chat-in-page {
-    position: fixed;
+    /*position: fixed;
     top: 0;
-    left: 0;
+    left: 0;*/
+   	position: relative;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
     .header {
+    	position: absolute;
+    	top: 0;
+    	left: 0;
+    	width: 100%;
         background-color: #317ae2;
         .iconfont {
             font-size: 30px;
@@ -142,7 +148,9 @@ export default {
 
     }
     .main {
-        flex: 1;
+        height: 100%;
+        padding: 56px 0 70px;
+        box-sizing: border-box;
         -webkit-overflow-scrolling: touch;
         overflow-y: scroll;
         ul {
@@ -166,12 +174,17 @@ export default {
                     box-shadow: 0 0 10px #d5d5d5;
                     margin: 0 30px 0 10px;
                     border-radius: 6px;
+                    word-wrap: break-word;
+                    overflow: hidden;
                 }
             }
         }
     }
     footer {
-    	position: relative;
+    	position: absolute;
+    	bottom: 0;
+    	left: 0;
+    	width: 100%;
         padding: 10px 20px;
         border-top: 2px solid #d5d5d5;
         .input-wrap {
