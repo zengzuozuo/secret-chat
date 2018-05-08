@@ -52,11 +52,8 @@ export default {
 .index-page {
     display: flex;
     flex-direction: column;
-    position: fixed;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
     .index-tab-view {
         flex: 1;
     }

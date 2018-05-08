@@ -60,8 +60,6 @@ export default {
         this.getData();
         this.$store.state.langValue = localStorage.getItem("LANGUAGE") || "zh-CN"
         this.$i18n.locale = localStorage.getItem("LANGUAGE") || "zh-CN"
-
-        // console.log(document.getElementsByTagName("title"))
     },
     methods: {
         copy() {
