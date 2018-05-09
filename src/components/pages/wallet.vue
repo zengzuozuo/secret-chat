@@ -93,6 +93,7 @@ export default {
         },
         //购买
         buy(id) {
+        	this.$store.state.loading = true
             this.timestamp = new Date().getTime()
             this.$store.commit("WSsend", {
                 data: {
