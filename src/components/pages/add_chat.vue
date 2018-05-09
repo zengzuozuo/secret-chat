@@ -79,7 +79,7 @@ export default {
                         if(!res.serial) return;
                         if(res.serial != this.timestamp) return;
                         this.timestamp = new Date().getTime()
-                        console.log("addchat")
+
                         
                         this.$store.commit("addChatUser", {
                             userid: this.to_user_id,
