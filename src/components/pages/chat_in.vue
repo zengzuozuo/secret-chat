@@ -8,7 +8,7 @@
             </div>
         </mu-appbar>-->
         <header class="header">
-        	<a href="javascript:;" class="back-btn" @click="$router.go(-1)"></a>
+        	<a href="javascript:;" class="back-btn" @click="goBack"></a>
         	<div>
         		<p>{{$route.query.id}}</p>
         		<span>{{$t('message.chatin1')}}</span>
@@ -108,6 +108,10 @@ export default {
         scrollBottom() {
             if(!this.$refs.main) return
             this.$refs.main.scrollTop = this.$refs.main.scrollHeight
+        },
+        goBack() {
+        	alert(1111)
+        	this.$router.go(-1)
         }
     },
     watch: {
@@ -117,7 +121,7 @@ export default {
     		}else {
 				this.inputErrorText = ""    			
     		}
-    		console.log(this.$refs.footer.offsetHeight)
+
     		this.$refs.main.style = "padding-bottom:" + this.$refs.footer.offsetHeight + "px"
     	}
     },
