@@ -8,7 +8,7 @@
             </div>
         </mu-appbar>-->
         <header class="header">
-        	<a href="javascript:;" class="back-btn" @click="goBack"></a>
+        	<!--<a href="javascript:;" class="back-btn" @click="goBack"></a>-->
         	<div @click="goBack">
         		<p>{{$route.query.id}}</p>
         		<span>{{$t('message.chatin1')}}</span>
@@ -153,7 +153,7 @@ export default {
         height: 56px;
         display: flex;
         align-items: center;
-        a {
+        .back-btn {
         	height: 100%;
         	width: 56px;
         	background: url('../../../static/images/arrow_back_icon.png') no-repeat center;
