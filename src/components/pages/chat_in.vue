@@ -9,7 +9,7 @@
         </mu-appbar>-->
         <header class="header">
         	<a href="javascript:;" class="back-btn" @click="goBack"></a>
-        	<div>
+        	<div @click="goBack">
         		<p>{{$route.query.id}}</p>
         		<span>{{$t('message.chatin1')}}</span>
         	</div>
