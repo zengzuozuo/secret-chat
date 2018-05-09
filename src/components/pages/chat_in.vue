@@ -1,12 +1,19 @@
 <template>
     <div class="chat-in-page">
-        <mu-appbar class="header">
+        <!--<mu-appbar class="header">
             <i class="iconfont" slot="left" @click="$router.go(-1)">&#xe621;</i>
             <div slot="left">
                 <p>{{$route.query.id}}</p>
                 <span>{{$t('message.chatin1')}}</span>
             </div>
-        </mu-appbar>
+        </mu-appbar>-->
+        <header class="header">
+        	<a href="javascript:;" class="back-btn" @click="$router.go(-1)"></a>
+        	<div>
+        		<p>{{$route.query.id}}</p>
+        		<span>{{$t('message.chatin1')}}</span>
+        	</div>
+        </header>
         <div class="main" ref="main">
             <ul ref="listWrap">
                 <li v-for="item in chatListData[$route.query.id].list" :class="{'self' : item.self}">
@@ -63,7 +70,7 @@ export default {
 	
 	            let secretKey = localStorage.getItem("sec_key")
 	            let miwen = nacl.box(nacl.util.decodeUTF8(this.messageText), nonce, nacl.util.decodeBase64(publicKey), nacl.util.decodeBase64(secretKey))
-				console.log(miwen)
+
 	            const userid = localStorage.getItem("userid")
 	
 	
@@ -139,11 +146,18 @@ export default {
     	left: 0;
     	width: 100%;
         background-color: #317ae2;
-        .iconfont {
-            font-size: 30px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        a {
+        	height: 100%;
+        	width: 56px;
+        	background: url('../../../static/images/arrow_back_icon.png') no-repeat center;
+        	background-size: 60%;
         }
         div {
-            padding: 0 20px;
+        	flex: 1;
+            color: #fff;
         }
 
     }
