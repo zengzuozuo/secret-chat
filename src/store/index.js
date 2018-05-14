@@ -74,15 +74,14 @@ export default new Vuex.Store({
                     state.loading = false
                     let data = JSON.parse(res.data)
                     console.log(data)
-                    if(data.code == 3001) {
-                        if(state.langValue == "zh-CN") {
+                    if(data.code != 200) {
+                    	if(state.langValue == "zh-CN") {
                             this.commit("showTopPopup", data.result.cn)
                         }else {
                             this.commit("showTopPopup", data.result.en)   
                         }
                         return;
                     }
-                    if(data.code != 200) return;
                     switch(data.method) {
                         case 'pushMessage':
                             let mingwen = decodeMessage(data.result.msg_data, data.result.msg_nonce, data.result.msg_pubkey)
@@ -120,7 +119,6 @@ export default new Vuex.Store({
                         break;
                         case 'login':
                             localStorage.setItem("pub_key", data.result[0].pub_key)
-//                          localStorage.setItem("sec_key", data.result[0].sec_key)
                             localStorage.setItem("userid", data.result[0].user_id)
                             sessionStorage.setItem("userid", data.result[0].user_id)
                             localStorage.setItem("key_store", JSON.stringify({userid: data.result[0].user_id, sec_key: data.result[0].sec_key}))
@@ -140,7 +138,7 @@ export default new Vuex.Store({
                     }
                     state.loading = true
                     // 断线重连
-                    this.commit("WSconnect", "ws://secretchat.org:3000/")
+                    this.commit("WSconnect", window.SERVER_PATH)
                 }
             }else {
                 alert("当前环境暂不支持聊天")

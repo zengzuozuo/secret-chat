@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import Md5 from '../../../static/js/md5.js'
 export default {
     data() {
         return {
@@ -69,6 +70,8 @@ export default {
             }
             // 验证本地是否有秘钥
             if(keyStore.userid == this.urlQuery.userId) {
+            	console.log(window.SERVER_PATH)
+            	return;
                 // 登录
                 this.$store.commit("WSsend", {
                     data: {

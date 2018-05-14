@@ -47,7 +47,7 @@ export default {
                     params: [this.to_user_id, this.timestamp]
                 },
                 callback: (res) => {
-                    console.log(1111)
+
                     if(!res.serial) return;
                     if(res.code === 200 && res.method == "getUserInfo") {
                         if(res.serial != this.timestamp) return;
