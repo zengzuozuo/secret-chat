@@ -20,6 +20,7 @@
 
 <script>
 import Clipboard from 'clipboard'
+import Md5 from '../../../static/js/md5.js'
 export default {
     data() {
         return {
@@ -64,7 +65,7 @@ export default {
             this.$store.commit("WSsend", {
                 data: {
                     method: "register",
-                    params: [urlQuery.userId, publicKey, secretKey]
+                    params: [urlQuery.userId, publicKey, Md5(secretKey)]
                 },
                 callback: (res) => {
                     if(res.code == 200 && res.method == "register") {
@@ -83,10 +84,18 @@ export default {
             this.$store.commit("WSsend", {
                 data: {
                     method: "login",
-                    params: [this.$route.query.userId, this.timestamp]
+                    params: [this.$route.query.userId, Md5(localStorage.getItem('sec_key'))]
                 },
                 callback: (res) => {
-                    if(res.code == 200 && res.method == "login" && res.serial == this.timestamp) {
+                	if(res.code == 3003 && res.method == "login") {
+                		if(this.$store.state.langValue == "zh-CN") {
+                            this.$store.commit("showTopPopup", res.result.cn)
+                        }else {
+                            this.$store.commit("showTopPopup", res.result.en)   
+                        }
+                        return;
+                	}
+                    if(res.code == 200 && res.method == "login") {
                         this.$router.replace("chatlist")
                     }
                 }

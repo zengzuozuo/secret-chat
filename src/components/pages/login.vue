@@ -70,18 +70,24 @@ export default {
             }
             // 验证本地是否有秘钥
             if(keyStore.userid == this.urlQuery.userId) {
-            	console.log(window.SERVER_PATH)
-            	return;
+				console.log(Md5(keyStore.sec_key))
                 // 登录
                 this.$store.commit("WSsend", {
                     data: {
                         method: "login",
-                        params: [this.urlQuery.userId]
+                        params: [this.urlQuery.userId, Md5(keyStore.sec_key)]
                     },
                     callback: (res) => {
+                    	if(res.code == 3003 && res.method == "login") {
+                    		if(this.$store.state.langValue == "zh-CN") {
+	                            this.$store.commit("showTopPopup", res.result.cn)
+	                        }else {
+	                            this.$store.commit("showTopPopup", res.result.en)   
+	                        }
+	                        return;
+                    	}
                         if(res.code == 200 && res.method == "login") {
                             localStorage.setItem("pub_key", res.result[0].pub_key)
-//                          localStorage.setItem("sec_key", res.result[0].sec_key)
                             localStorage.setItem('userid', this.urlQuery.userId)
                             sessionStorage.setItem('userid', this.urlQuery.userId)
                             this.$router.replace("chatlist")
@@ -126,7 +132,6 @@ export default {
         },
         // 保存秘钥
         saveKey() {
-            console.log(this.secretKey)
             if(this.secretKey.trim() == "") {
                 this.$store.commit("showTopPopup", this.$t('message.login7'))
                 return;

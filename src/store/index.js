@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
+import Md5 from '../../static/js/md5.js'
 
 Vue.use(Vuex)
 
@@ -41,11 +42,12 @@ export default new Vuex.Store({
                     console.log("连接成功")
                     //关闭loading动画
                     state.loading = false
-                    if(localStorage.getItem("userid")) {
+                    if(localStorage.getItem("userid") && localStorage.getItem("sec_key")) {
+                    	
                         this.commit("WSsend", {
                             data: {
                                 method: "login",
-                                params: [localStorage.getItem("userid")]
+                                params: [localStorage.getItem("userid"), Md5(localStorage.getItem("sec_key"))]
                             }
                         })
                         // 从缓存中恢复聊天记录
@@ -74,6 +76,14 @@ export default new Vuex.Store({
                     state.loading = false
                     let data = JSON.parse(res.data)
                     console.log(data)
+                    //登录秘钥匹配错误
+//                  if(data.code == 3003) {
+//              		if(this.$store.state.langValue == "zh-CN") {
+//                          this.commit("showTopPopup", res.result.cn)
+//                      }else {
+//                          this.commit("showTopPopup", res.result.en)   
+//                      }
+//              	}
                     if(data.code != 200) {
                     	if(state.langValue == "zh-CN") {
                             this.commit("showTopPopup", data.result.cn)
@@ -151,9 +161,9 @@ export default new Vuex.Store({
 	                return nacl.util.encodeUTF8(mgwen)
             	}catch(e){
             		if(state.langValue == "zh-CN") {
-                        return "***无效密钥***"
+                        return "***密钥已更新，此消息无法解开***"
                     }else {
-                        return "***Invalid key***"
+                        return "***Key has been updated, this message cannot be undone***"
                     }
             	}
             }
