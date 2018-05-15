@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import Md5 from '../../../static/js/md5.js'
 export default {
     data() {
         return {
@@ -108,7 +109,7 @@ export default {
 	            this.$store.commit("WSsend", {
 	                data: {
 	                    method: "postMessage",
-	                    params: [userid, to_user_id, 1, nacl.util.encodeBase64(miwen), B64nonce, this.timestamp]
+	                    params: [userid, to_user_id, Md5(secretKey), localStorage.getItem("pub_key"), 1, nacl.util.encodeBase64(miwen), B64nonce, this.timestamp]
 	                },
 	                callback: (res) => {
 	                    if(res.code === 200 && res.method == "postMessage") {
@@ -138,10 +139,6 @@ export default {
         scrollBottom() {
             if(!this.$refs.main) return
             this.$refs.main.scrollTop = this.$refs.main.scrollHeight
-        },
-        goBack() {
-        	alert(1111)
-        	this.$router.go(-1)
         }
     },
     watch: {
