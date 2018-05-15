@@ -161,9 +161,9 @@ export default new Vuex.Store({
 	                return nacl.util.encodeUTF8(mgwen)
             	}catch(e){
             		if(state.langValue == "zh-CN") {
-                        return "***密钥已更新，此消息无法解开***"
+                        return "***您的密钥已更新，此消息无法解开***"
                     }else {
-                        return "***Key has been updated, this message cannot be undone***"
+                        return "***Your key has been updated, and this message cannot be undone***"
                     }
             	}
             }
