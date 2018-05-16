@@ -62,42 +62,38 @@ export default {
                 this.$router.replace({path: 'register', query: {userId: this.urlQuery.userId, userStatus: this.urlQuery.userStatus}})
                 return;
             }
-            let keyStore = JSON.parse(localStorage.getItem("key_store"))
-            if(!keyStore) {
+
+            if(!this.secretKey) {
                 // 弹出秘钥输入框
                 this.isShowAlert = true
                 return
             }
-            // 验证本地是否有秘钥
-            if(keyStore.userid == this.urlQuery.userId) {
-				console.log(Md5(keyStore.sec_key))
-                // 登录
-                this.$store.commit("WSsend", {
-                    data: {
-                        method: "login",
-                        params: [this.urlQuery.userId, Md5(keyStore.sec_key)]
-                    },
-                    callback: (res) => {
-                    	if(res.code == 3003 && res.method == "login") {
-                    		if(this.$store.state.langValue == "zh-CN") {
-	                            this.$store.commit("showTopPopup", res.result.cn)
-	                        }else {
-	                            this.$store.commit("showTopPopup", res.result.en)   
-	                        }
-	                        return;
-                    	}
-                        if(res.code == 200 && res.method == "login") {
-                            localStorage.setItem("pub_key", res.result[0].pub_key)
-                            localStorage.setItem('userid', this.urlQuery.userId)
-                            sessionStorage.setItem('userid', this.urlQuery.userId)
-                            this.$router.replace("chatlist")
+
+            // 登录
+            this.$store.commit("WSsend", {
+                data: {
+                    method: "login",
+                    params: [this.urlQuery.userId, Md5(this.secretKey)]
+                },
+                callback: (res) => {
+                	if(res.code == 3003 && res.method == "login") {
+                		if(this.$store.state.langValue == "zh-CN") {
+                            this.$store.commit("showTopPopup", res.result.cn)
+                        }else {
+                            this.$store.commit("showTopPopup", res.result.en)   
                         }
+                        return;
+                	}
+                    if(res.code == 200 && res.method == "login") {
+                        localStorage.setItem("pub_key", res.result[0].pub_key)
+                        localStorage.setItem('userid', this.urlQuery.userId)
+                        sessionStorage.setItem('userid', this.urlQuery.userId)
+                        localStorage.setItem("sec_key", this.secretKey)
+        				localStorage.setItem("key_store", JSON.stringify({userid: this.urlQuery.userId, sec_key: this.secretKey}))
+                        this.$router.replace("chatlist")
                     }
-                })
-            }else {
-                // 弹出秘钥输入框
-                this.isShowAlert = true
-            }
+                }
+            })
         },
         // 切换语言
         handleChange (langValue) {
@@ -136,8 +132,6 @@ export default {
                 this.$store.commit("showTopPopup", this.$t('message.login7'))
                 return;
             }
-            localStorage.setItem("sec_key", this.secretKey)
-            localStorage.setItem("key_store", JSON.stringify({userid: this.urlQuery.userId, sec_key: this.secretKey}))
             this.login()
         },
         //返回 .. 关闭webview
