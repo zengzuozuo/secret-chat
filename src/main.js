@@ -12,6 +12,12 @@ import LangEn from '../static/lang/en'
 import LangZh from '../static/lang/zh'
 import FastClick from 'fastclick'
 
+/*
+ *	注册全局组件
+ */
+import Headerbar from './components/common/headerbar'
+Vue.component("Headerbar", Headerbar)
+
 if ('addEventListener' in document) {  // 解决移动端300毫秒延迟
 	document.addEventListener('DOMContentLoaded', function () {
 		FastClick.attach(document.body)

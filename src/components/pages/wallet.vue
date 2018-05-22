@@ -1,6 +1,6 @@
 <template>
     <div class="wallet-page">
-        <header>{{$t('message.my')}}</header>
+        <Headerbar :titletext="$t('message.my')"></Headerbar>
         <div class="main">
             <div class="menu-wrap">
                 <div class="menu">
@@ -124,16 +124,6 @@ export default {
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     background-color: #F5F5F5;
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        line-height: 44px;
-        font-size: 18px;
-        background-color: #fff;
-    }
     .main {
         padding-top: 50px;
         .menu-wrap {

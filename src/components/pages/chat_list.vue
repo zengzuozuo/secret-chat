@@ -1,6 +1,6 @@
 <template>
     <div class="chat-list-page">
-        <header>{{$t("message.chat")}}</header>
+        <Headerbar :titletext="$t('message.chat')"></Headerbar>
         <div class="main">
             <div class="add-chat" @click="isShowAlert = true">
                 <img class="icon" src="static/images/add_icon.png" />
@@ -98,16 +98,6 @@ export default {
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     background-color: #F5F5F5;
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        line-height: 44px;
-        font-size: 18px;
-        background-color: #fff;
-    }
     .main {
         padding: 50px 0 0;
         

@@ -1,6 +1,6 @@
 <template>
     <div class="set-page">
-        <header>{{$t("message.set")}}</header>
+        <Headerbar :titletext='$t("message.set")'></Headerbar>
         <div class="main">
             <ul>
                 <li>
@@ -83,16 +83,6 @@ export default {
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     background-color: #F5F5F5;
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        line-height: 44px;
-        font-size: 18px;
-        background-color: #fff;
-    }
     .main {
         margin: 50px 10px 0;
         padding: 10px;

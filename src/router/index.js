@@ -54,8 +54,8 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // 登录拦截
-  if(to.meta.isLogin) {
+	// 登录拦截
+	if(to.meta.isLogin) {
 		if(!localStorage.getItem("userid")) {
       next({path: "login"})
 		} else {
