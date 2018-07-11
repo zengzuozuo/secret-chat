@@ -13,10 +13,13 @@
     var isInAndroid = isInWKWebview() || isInAppAndroid();
 
     function isInApp(){
-    	return isInWk || isInAndroid;
+        return isInWk || isInAndroid;
     }
 
+    console.log(isInWk, isInAndroid);
+
     window.app = window.app || {};
+
 
     var appInfo = {
         currentId: 0
@@ -28,7 +31,7 @@
         return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
     }
 
-    ['openWebView', 'closeWebview', 'getVersion', 'shareGameText', 'shareGameImage', 'shareLink'].forEach(function(key) {
+    ['openWebView', 'closeWebView', 'getVersion', 'shareGameText', 'shareGameImage', 'shareLink'].forEach(function(key) {
         if (app[key]) {
             return;
         }
